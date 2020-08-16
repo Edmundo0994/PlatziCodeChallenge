@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahorros en otros periodos</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 50%;
+  }
+
+  #newFrase {
+    padding: 0 20px;
+    text-align: justify;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 10px;">Morse a ABC y viceversa</h1>
+    <h5>(Usa / para especificar un espacio)</h5>
+    <div class="inputs">
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+        <section class="section">
+          Morse: <input id="morse"/>
+         </section>
+         <button onclick="descifrar()" class="btn">Descifrar...</button>
+      </div>
+      <h4 style="margin-bottom: 16px;">Esto significa: <span id='descifrado'></span></h4>
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+        <section class="section">
+          Frase: <input id="frase"/>
+         </section>
+         <button onclick="cifrar()" class="btn">Cifrar...</button>
+      </div>
+      <h4 style="margin-bottom: 16px;">Cifrado sería: <span id='cifrado'></span></h4>
+    </div>
+  </div>
+  <script>
+    const parser = {
+      'a': '.-', 'b': '-...', 'c': '-.-.', 'd': '-..', 'e': '.', 'f': '..-.', 'g': '--.', 'h': '....', 'i': '..', 'j': '.---', 
+      'k': '-.-', 'l': '.-..', 'm': '--', 'n': '-.', 'o': '---', 'p': '.--.', 'q': '--.-', 'r': '.-.', 's': '...', 't': '-', 
+      'u': '..-', 'v': '...-', 'w': '.--', 'x': '-..-', 'y': '-.--', 'z': '--..', '/': '/',
+    }
+    const abc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '/']
+
+    function descifrar(){
+      let morse = document.getElementById('morse').value
+      let mensaje = []
+      morse = morse.split(' ')
+      morse.map( index => {
+        abc.map( letter => {
+          if (parser[letter] === index){
+            mensaje.push(letter)
+          }
+        })
+      })
+      document.getElementById('descifrado').innerHTML = mensaje.join('').replace(/[/]/g, ' ')
+    }
+
+    function cifrar(){
+      let frase = document.getElementById('frase').value
+      let mensaje = []
+      frase = frase.toLowerCase().replace(/[ ]/g, '/').split('')
+      frase.map( index => {
+        console.log(frase)
+        abc.map( letter => {
+          if (letter === index){
+            mensaje.push(parser[letter])
+          }
+        })
+      })
+      document.getElementById('cifrado').innerHTML = mensaje.join(' ')
+    }
+  </script>
+</body>
+</html>

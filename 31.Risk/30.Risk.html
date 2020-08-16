@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Risk</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .contenedor {
+    width: 100%;
+    height: 100vh;
+    min-width: 750px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 85% 15%;
+    grid-template-areas: 
+    "atacante defensor"
+    "botonContainer botonContainer";
+  }
+
+  .centrado {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  #atacante {
+    background-color: rgba(0, 247, 255, 0.253);
+    grid-area: atacante;
+  }
+
+  #defensor {
+    background-color: rgba(255, 0, 0, 0.253);
+    grid-area: defensor;
+  }
+
+  #botonContainer {
+    background-color: coral;
+    grid-area: botonContainer;
+  }
+
+  .btn {
+    margin: 8px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 36px;
+    border: none;
+    color: #000504;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.397);
+    color: white;
+    transform: scale(1.1);
+  }
+  
+</style>
+<body id='body'>
+  <div class="contenedor">
+    <div class='centrado' id='atacante'>
+      <h3>Atacante</h3>
+    </div>
+    <div class='centrado' id='defensor'></div>
+    <div class='centrado' id='botonContainer'>
+      <button class="btn" type="button" onclick="jugar()">Jugar</button>
+    </div>
+  </div>
+  <script>
+    const img1 = new Image(); img1.src = './utils/lado1.png'
+    const img2 = new Image(); img2.src = './utils/lado2.png'
+    const img3 = new Image(); img3.src = './utils/lado3.png'
+    const img4 = new Image(); img4.src = './utils/lado4.png'
+    const img5 = new Image(); img5.src = './utils/lado5.png'
+    const img6 = new Image(); img6.src = './utils/lado6.png'
+    
+    function jugar(){
+      const atacante = document.getElementById('atacante')
+      const defensor = document.getElementById('defensor')
+      atacante.innerHTML = ''
+      defensor.innerHTML = ''
+      let attack = []
+      let defense = []
+
+      for (let i = 0; i < 3; i++){
+        attack.push(Math.floor(Math.random()*6)+ 1)
+      }
+      for (let i = 0; i < 2; i++){
+        defense.push(Math.floor(Math.random()*6)+ 1)
+      }
+
+      attack.sort((a, b) => b - a)
+      defense.sort((a, b) => b - a)
+
+      console.log(attack, defense)
+
+      attack.map( diceFace => {
+        cara(diceFace, atacante)
+      })
+      defense.map( diceFace => {
+        cara(diceFace, defensor)
+      })
+
+      setTimeout(() => {
+        resultado(attack, defense)
+      }, 200);
+    }
+
+    function cara(caraDado, jugador) {
+      switch(caraDado){
+        case 1:
+          const image1 = img1.cloneNode()
+          jugador.appendChild(image1)
+          break;
+        case 2:
+          const image2 = img2.cloneNode()
+          jugador.appendChild(image2)
+          break;
+        case 3:
+          const image3 = img3.cloneNode()
+          jugador.appendChild(image3)
+          break;
+        case 4:
+          const image4 = img4.cloneNode()
+          jugador.appendChild(image4)
+          break;
+        case 5:
+          const image5 = img5.cloneNode()
+          jugador.appendChild(image5)
+          break;
+        case 6:
+          const image6 = img6.cloneNode()
+          jugador.appendChild(image6)
+          break;
+      }
+    }
+
+    function resultado(attack, defense) {
+      if (attack[0] > defense[0]){
+        alert(`El Atacante saco ${attack[0]} y el Defensor ${defense[0]}, por ende gana el atacante`)
+      } else if (attack[0] < defense[0]){
+        alert(`El Atacante saco ${attack[0]} y el Defensor ${defense[0]}, por ende gana el defensor`)
+      } else {
+        alert(`El Atacante saco ${attack[0]} y el Defensor ${defense[0]}, por ende gana el defensor`)
+      }
+
+      if (attack[1] > defense[1]){
+        alert(`El Atacante saco ${attack[1]} y el Defensor ${defense[1]}, por ende gana el atacante`)
+      } else if (attack[1] < defense[1]){
+        alert(`El Atacante saco ${attack[1]} y el Defensor ${defense[1]}, por ende gana el defensor`)
+      } else {
+        alert(`El Atacante saco ${attack[1]} y el Defensor ${defense[1]}, por ende gana el defensor`)
+      }
+    }
+  </script>
+</body>
+</html>

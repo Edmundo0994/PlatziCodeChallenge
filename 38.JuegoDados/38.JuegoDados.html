@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego Dados</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(255, 255, 255);
+  }
+
+  .contenedor {
+    min-width: 750px;
+    width: 100%;
+    height: 100vh;
+    min-width: 750px;
+    display: grid;
+    grid-template-columns: 33% 34% 33%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+    grid-template-areas: 
+    '. titulo .'
+    'jugador1 jugador2 jugador3'
+    'jugador1 jugador2 jugador3'
+    'jugador1 jugador2 jugador3'
+    'btn1 btn2 btn3'
+    ;
+  }
+
+  #titulo {
+    grid-area: titulo;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #jugador1 {
+    grid-area: jugador1;
+  }
+  #jugador2 {
+    grid-area: jugador2;
+  }
+  #jugador3 {
+    grid-area: jugador3;
+  }
+
+  #btn1{
+    grid-area: btn1;
+  }
+  #btn2{
+    grid-area: btn2;
+  }
+  #btn3{
+    grid-area: btn3;
+  }
+  #reset{
+    display: none;
+    grid-area: btn2;
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  section h1 {
+    text-align: center;
+    color: chocolate;
+  }
+
+  .btn {
+    margin: 8px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 24px;
+    border: solid 1px black;
+    color: #000504;
+    text-align: center;
+    padding: 16px;
+    margin-bottom: 36px;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.397);
+    color: white;
+  }
+  
+</style>
+<body id='body'>
+  <div class="contenedor" id='contenedor'>
+    <h1 id='titulo'>Juego de Dados</h1>
+    <section id="jugador1">
+      <h1>Jugador 1</h1>
+      <img id='dado1J1' src="./utils/lado1.png" alt="dado" width="30%">
+      <img id='dado2J1' src="./utils/lado1.png" alt="dado" width="30%">
+    </section>
+    <section id="jugador2">
+      <h1>Jugador 2</h1>
+      <img id='dado1J2' src="./utils/lado1.png" alt="dado" width="30%">
+      <img id='dado2J2' src="./utils/lado1.png" alt="dado" width="30%">
+    </section>
+    <section id="jugador3">
+      <h1>Jugador 3</h1>
+      <img id='dado1J3' src="./utils/lado1.png" alt="dado" width="30%">
+      <img id='dado2J3' src="./utils/lado1.png" alt="dado" width="30%">
+    </section>
+    <button onclick="lanzar1()" class='btn' id="btn1">Lanza...</button>
+    <button onclick="lanzar2()" class='btn' id="btn2">Lanza...</button>
+    <button onclick="lanzar3()" class='btn' id="btn3">Lanza...</button>
+    <button onclick="reset()" class='btn' id="reset">Reset...</button>
+  </div>
+  <script>
+    let flags = {
+      j1: false,
+      j2: false,
+      j3: false
+    }
+
+    let dadosMemory = {
+      j1: 0,
+      j2: 0,
+      j3: 0
+    }
+
+    let ganadores = []
+    
+    function lanzar1(){
+      const dado1J1 = document.getElementById('dado1J1')
+      const dado2J1 = document.getElementById('dado2J1')
+      const btn1 = document.getElementById('btn1')
+
+      let dados = generarDados()
+      
+      cara(dados[0], dado1J1)
+      cara(dados[1], dado2J1)
+
+      btn1.style = 'display: none;'
+
+      flags.j1 = true
+
+      dados.forEach( num => dadosMemory.j1 = dadosMemory.j1 + num)
+
+      ganador()
+    }
+    function lanzar2(){
+      const dado1J2 = document.getElementById('dado1J2')
+      const dado2J2 = document.getElementById('dado2J2')
+      const btn2 = document.getElementById('btn2')
+
+      let dados = generarDados()
+      
+      cara(dados[0], dado1J2)
+      cara(dados[1], dado2J2)
+
+      btn2.style = 'display: none;'
+
+      flags.j2 = true
+
+      dados.forEach( num => dadosMemory.j2 = dadosMemory.j2 + num)
+
+      ganador()
+    }
+    function lanzar3(){
+      const dado1J3 = document.getElementById('dado1J3')
+      const dado2J3 = document.getElementById('dado2J3')
+      const btn3 = document.getElementById('btn3')
+
+      let dados = generarDados()
+      
+      cara(dados[0], dado1J3)
+      cara(dados[1], dado2J3)
+
+      btn3.style = 'display: none;'
+
+      flags.j3 = true
+
+      dados.forEach( num => dadosMemory.j3 = dadosMemory.j3 + num)
+
+      ganador()
+    }
+
+    function ganador(){
+      const reset = document.getElementById('reset')
+
+      if (flags.j1 === true && flags.j2 === true && flags.j3 === true){
+        reset.style = 'display: inline-block;'
+
+        let valores = Object.values(dadosMemory)
+        valores.sort((a, b) => a - b)
+
+        let ganador = valores.pop()
+        if (ganador === dadosMemory.j1){
+          ganadores.push('Jugador 1')
+        }
+        if (ganador === dadosMemory.j2){
+          ganadores.push('Jugador 2')
+        }
+        if (ganador === dadosMemory.j3){
+          ganadores.push('Jugador 3')
+        }
+
+        setTimeout(() => {
+          if (ganadores.length === 1){
+            alert(`El ganador es ${ganadores}`)
+          } else if (ganadores.length === 2) {
+            alert(`Los ganadores son ${ganadores.join(' y ')}`)
+          } else {
+            alert(`Los ganadores son ${ganadores.join(', ')}`)
+          }
+        }, 100);
+      }
+    }
+
+    function reset() {
+      const btn1 = document.getElementById('btn1')
+      const btn2 = document.getElementById('btn2')
+      const btn3 = document.getElementById('btn3')
+      const reset = document.getElementById('reset')
+      const contenedor = document.getElementById('contenedor')
+
+      btn1.style = 'display: inline-block;'
+      btn2.style = 'display: inline-block;'
+      btn3.style = 'display: inline-block;'
+      reset.style = 'display: none;'
+
+      flags = {
+        j1: false,
+        j2: false,
+        j3: false
+      }
+
+      dadosMemory = {
+        j1: 0,
+        j2: 0,
+        j3: 0
+      }
+
+      ganadores = []
+
+      contenedor.innerHTML = `
+        <h1 id='titulo'>Juego de Dados</h1>
+        <section id="jugador1">
+          <h1>Jugador 1</h1>
+          <img id='dado1J1' src="./utils/lado1.png" alt="dado" width="30%">
+          <img id='dado2J1' src="./utils/lado1.png" alt="dado" width="30%">
+        </section>
+        <section id="jugador2">
+          <h1>Jugador 2</h1>
+          <img id='dado1J2' src="./utils/lado1.png" alt="dado" width="30%">
+          <img id='dado2J2' src="./utils/lado1.png" alt="dado" width="30%">
+        </section>
+        <section id="jugador3">
+          <h1>Jugador 3</h1>
+          <img id='dado1J3' src="./utils/lado1.png" alt="dado" width="30%">
+          <img id='dado2J3' src="./utils/lado1.png" alt="dado" width="30%">
+        </section>
+        <button onclick="lanzar1()" class='btn' id="btn1">Lanza...</button>
+        <button onclick="lanzar2()" class='btn' id="btn2">Lanza...</button>
+        <button onclick="lanzar3()" class='btn' id="btn3">Lanza...</button>
+        <button onclick="reset()" class='btn' id="reset">Reset...</button>
+      `
+    }
+
+    function generarDados() {
+      let dados = []
+      for (let i = 0; i < 2; i++){
+        dados.push(Math.floor((Math.random()*6) + 1))
+      }
+      return dados
+    }
+
+    function cara(caraDado, jugador) {
+      switch(caraDado){
+        case 1:
+          jugador.src = './utils/lado1.png'
+          break;
+        case 2:
+          jugador.src = './utils/lado2.png'
+          break;
+        case 3:
+          jugador.src = './utils/lado3.png'
+          break;
+        case 4:
+          jugador.src = './utils/lado4.png'
+          break;
+        case 5:
+          jugador.src = './utils/lado5.png'
+          break;
+        case 6:
+          jugador.src = './utils/lado6.png'
+          break;
+      }
+    }
+  </script>
+</body>
+</html>

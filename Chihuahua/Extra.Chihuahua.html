@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chihuahua</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #contra {
+    margin-top: 16px;
+    padding: 0 20px;
+    width: 50%;
+    text-align: center;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <div class="inputs">
+      <section class="section">
+        Audio <select name="Audio" id="selection">
+          <option value="ladridos1">Ladridos1</option>
+          <option value="ladridos2">Ladridos2</option>
+          <option value="ladridos3">Ladridos3</option>
+          <option value="ladridos4">Ladridos4</option>
+        </select>
+      </section>
+      <button onclick="reproducir()" class="btn">Boton...</button>
+    </div>
+  </div>
+  <script>
+    const audio1 = new Audio('./utils/Ladridos1.wav')
+    const audio2 = new Audio('./utils/Ladridos2.wav')
+    const audio3 = new Audio('./utils/Ladridos3.wav')
+    function reproducir(){
+      const opc = document.getElementById('selection').value
+      console.log(opc)
+      switch(opc){
+        case 'ladridos1':
+          audio1.play()
+          audio2.play()
+          break;
+        case 'ladridos2':
+          audio2.play()
+          audio3.play()
+          break;
+        case 'ladridos3':
+          audio3.play()
+          audio1.play()
+          break;
+        case 'ladridos4':
+          audio1.play()
+          audio2.play()
+          audio3.play()
+          break;
+      }
+    } 
+  </script>
+</body>
+</html>

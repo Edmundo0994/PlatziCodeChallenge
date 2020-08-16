@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Parte 1</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .btn {
+    font-size: 36px;
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #contra {
+    padding: 0 20px;
+    width: 95%;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Click para mostrar 4 caracteres entre "#$%()/& de forma aleatoria</h1>
+    <button onclick="escribe()" class="btn">Click</button>
+    <div style="margin-top: 24px;" id="resultado"></div>
+  </div>
+  <script>
+    // Forma 1
+    // function escribe() {
+    //   const array = ['"','#','$','%','(',')','/','&']
+    //   const alt = []
+    //   for (let i = 0; i < 4; i++){
+    //     let num = Math.floor(Math.random()*8)
+    //     alt[i] = array[num]
+    //   }
+    //   document.getElementById('resultado').innerHTML = `Salió ${alt.join('')} de forma aleatoria`
+    // }
+
+    // Forma 2
+    function escribe() {
+      const array = ['34', '35', '36', '37', '38', '40', '41', '47']
+      const alt = []
+      for (let i = 0; i < 4; i++){
+        let num = Math.floor(Math.random()*8)
+        alt[i] = array[num]
+      }
+      let resultado = ''
+      alt.map(charcode => resultado = resultado + String.fromCharCode(charcode))
+      document.getElementById('resultado').innerHTML = `Salió ${resultado} de forma aleatoria`
+    }
+  </script>
+</body>
+</html>

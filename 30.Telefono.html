@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahorros en otros periodos</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 50%;
+  }
+
+  #newFrase {
+    padding: 0 20px;
+    text-align: justify;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1>Telefono</h1>
+    <div class="inputs">
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+        <section class="section">
+          Número de celular: <input maxlength="7" id="number" placeholder="xxxxxxx 7 DIGITS MAX"/>
+         </section>
+         <button onclick="calcular()" class="btn">calcular...</button>
+      </div>
+      <h4 style="margin-bottom: 16px;">Se pueden hacer un total de <span id='combinaciones'>0</span> combinaciones con este número</h4>
+    </div>
+  </div>
+  <script>
+    // No comprendí bien este reto, ya que siempre será una sola respuesta, siempre será 2187, ya que el número siempre constará de 7 dígitos (Aunque yo hice este programa para que me reciba hasta un max de 7 dígitos) los cuales tendrán solamente 3 distintas posibilidades, porque la instrucción dice "Dado un teléfono de 7 dígitos, crea un programa que calcule todas las palabras posibles" por ende todos los números solo tienen 3 distintas letras c/u, ejemplo 2 ABC y 7 PRS o 9 WXY, y así solamente tenemos que poner las posibilidades (al ser todas 3) elevado a la longitud del número, o 3 * 3 * 3 * 3 * 3 * 3 * 3, si alguien entendió diferente el reto, agradecería que me lo explicara.
+    function calcular(){
+      const long = document.getElementById('number').value.length
+      let resultado = 3 ** long
+      document.getElementById('combinaciones').innerHTML = resultado
+    }
+  </script>
+</body>
+</html>

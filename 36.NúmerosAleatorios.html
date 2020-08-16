@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Números Aleatorios</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .contenedor {
+    width: 100%;
+    height: 100vh;
+    min-width: 750px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+  }
+
+  .contenedor h1 {
+    margin-bottom: 36px;
+  }
+
+  .inputs {
+    font-size: 18px;
+  }
+
+  .inputs section {
+    margin-bottom: 36px;
+  }
+
+  .btn {
+    margin: 8px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 24px;
+    border: solid 1px black;
+    color: #000504;
+    text-align: center;
+    padding: 16px;
+    margin-bottom: 36px;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.397);
+    color: white;
+    transform: scale(1.1);
+  }
+  
+</style>
+<body id='body'>
+  <div class="contenedor">
+    <h1>Números Aleatorios</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingrese la cantidad de dados <input id="dadosN"/>
+      </section>
+    </div>
+    <button onclick="lanzar()" class="btn">Repite...</button>
+    <p id='resultado'></p>
+  </div>
+  <script>
+    // const img1 = new Image(); img1.src = './utils/lado1.png'
+    // const img2 = new Image(); img2.src = './utils/lado2.png'
+    // const img3 = new Image(); img3.src = './utils/lado3.png'
+    // const img4 = new Image(); img4.src = './utils/lado4.png'
+    // const img5 = new Image(); img5.src = './utils/lado5.png'
+    // const img6 = new Image(); img6.src = './utils/lado6.png'
+    
+    function lanzar(){
+      const dadosN = document.getElementById('dadosN').value
+      let dados = []
+
+      for (let i = 0; i < dadosN; i++){
+        dados.push(Math.floor((Math.random()*6) + 1))
+      }
+
+      (dadosN === '1')
+        ? document.getElementById('resultado').innerHTML = `Tu dado sacó: ${dados}`
+        : document.getElementById('resultado').innerHTML = `Tus ${dadosN} dados sacaron: ${dados}`
+    }
+
+
+    /* function cara(caraDado, jugador) {
+      switch(caraDado){
+        case 1:
+          const image1 = img1.cloneNode()
+          jugador.appendChild(image1)
+          break;
+        case 2:
+          const image2 = img2.cloneNode()
+          jugador.appendChild(image2)
+          break;
+        case 3:
+          const image3 = img3.cloneNode()
+          jugador.appendChild(image3)
+          break;
+        case 4:
+          const image4 = img4.cloneNode()
+          jugador.appendChild(image4)
+          break;
+        case 5:
+          const image5 = img5.cloneNode()
+          jugador.appendChild(image5)
+          break;
+        case 6:
+          const image6 = img6.cloneNode()
+          jugador.appendChild(image6)
+          break;
+      }
+    }*/
+  </script>
+</body>
+</html>

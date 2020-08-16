@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Debería jugar?</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .contenedor h1 {
+    text-align: center;
+  }
+
+  .inputs {
+    display: inherit;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    margin: 8px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 24px;
+    border: solid 1px black;
+    color: #000504;
+    text-align: center;
+    padding: 16px;
+    margin-bottom: 36px;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.397);
+    color: white;
+  }
+
+</style>
+<body>
+  <div id='contenedor' class="contenedor">
+    <h1>¿Deseas jugar?</h1>
+    <p style="padding: 10px 25%; text-align: justify;">Imagina que una persona te dice que debes adivinar un número al azar entre 0 y 100. Si lo adivinas en la primera oportunidad te da 4 usd, en la segunda 3 usd, en la tercera 2 usd, en la cuarta 1 usd, en la quinta 0 usd y a partir de la sexta tú le pagas 1 usd, en la séptima 2 usd, etc. ¿Deberías jugar este juego?</p>
+    <div class="inputs">
+      <button onclick="jugar()" class="btn">Jugar...</button>
+      <button onclick="noJugar()" class="btn">No me conviene...</button>
+    </div>
+  </div>
+  <script>
+    let decisión = false
+    let array = []
+    let ganancia = 4
+    function jugar(){
+      if (!decisión){
+        document.getElementById('contenedor').innerHTML = `
+          <h1>Te mostraré que no vale la pena, veamos dependiendo del número que se genera en el juego, cuanto ganarías o perderías, para esto ingresa el número que supuestamente deberías adivinar entre 0 y 100: </h1>
+          <input style="margin: 36px; width: 40px; font-size: 32px; text-align: center;" id="num"/>
+          <button onclick="jugar()" class="btn">Jugar...</button>
+        `
+
+        decisión = true
+
+        for (let i = 0; i <= 100; i++){
+          array.push(i)
+        }
+      } else {
+        const valor = parseInt(document.getElementById('num').value)
+        if (valor <= 0 || valor >= 100){
+          return alert('Porfavor, selecciona un número entre 0 y 100')
+        }
+        let mitad = array[Math.floor((array.length - 1) / 2)]
+        alert(`Como conoces la busqueda binaria, tu valor a adivinar será ${mitad}, ya que es la mitad del rango ${array.join(',')}`)
+        if (valor === mitad){
+          if (ganancia > 0){
+            alert(`En este caso, tu guess es el correcto, y por ende tu ganancia será de $${ganancia}`)
+          } else if (ganancia === 0) {
+            alert(`En este caso, no ganaste ni perdiste`)
+          } else {
+            alert(`En este caso, aunque tu guess es el correcto, perdiste $${ganancia * (- 1)}`)
+          }
+          array = []
+          ganancia = 4
+          for (let i = 0; i <= 100; i++){
+            array.push(i)
+          }
+          alertas()
+        } else {
+          if (valor > mitad){
+            array = array.slice(Math.floor((array.length - 1) / 2), array.length)
+            alert(`Tu nuevo rango en adivinar será ${array}`)
+          } else {
+            array = array.slice(0, Math.floor((array.length - 1) / 2) + 1)
+            alert(`Tu nuevo rango en adivinar será ${array}`)
+          }
+          ganancia--
+          console.log(ganancia)
+          jugar()
+        }
+      }
+    }
+
+    function alertas(){
+      alert('Para ganar 4$, el número a adivinar debería ser 50; para ganar 3$, el número a adivinar debería ser 25 o 75; para ganar 2$, el número a adivinar debería ser 12, 37, 62 o 87; para ganar 1$, el número a adivinar debería ser 6, 18, 31, 43, 56, 68, 81, o 93; para no ganar ni perder, el número a adivinar debería ser 3, 9, 15, 21, 28, 34, 40, 46, 53, 59, 65, 71, 78, 84, 90 o 96; el resto de posibilidades siempre perderas.')
+      alert('Por eso no te sale rentable apostar, ya que de las 99 posibles respuestas, solo 15 de ellas te harán ganar, 16 de ellas no ganarás ni perderás, y las demás 68 posibilidades, siempre perderás. En otras palabras, solo tienes 15.15% de posibilidades de ganar.')
+      alert('Si deseas verlo por ti mismo, inténtalo con todas las opciones y verás que tengo razón 😉')
+    }
+
+    function noJugar(){
+      alert('Pues si, aunque por juego solo tienes por perder 2$... a la larga no te sale rentable jugar')
+      alertas()
+    }
+  </script>
+</body>
+</html>

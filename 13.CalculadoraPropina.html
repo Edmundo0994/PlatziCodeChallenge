@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Propina</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #contra {
+    padding: 0 20px;
+    width: 95%;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Calculadora de propinas</h1>
+    <button style="margin-bottom: 24px;" onclick="handleNew()">Agregar platillo</button>
+    <p>Porcentaje de propina: <input id="propina" value='0'/></p>
+    <div class="inputs">
+      <div id="platos"></div>
+    </div>
+    <button onclick="revisa()" class="btn">Calcula...</button>
+    <div style="margin-top: 24px;" id="resultado"></div>
+  </div>
+  <script>
+    let numeroPlatos = 0
+    function handleNew() {
+      const platos = document.getElementById('platos')
+      const newPlato = document.createElement('section')
+      numeroPlatos++
+      newPlato.className = "section"
+      newPlato.innerHTML = `Precio del platillo $<input id="precio${numeroPlatos}"/>`   
+      platos.appendChild(newPlato)
+    }
+
+    function revisa(){
+      let subTotal = 0
+      for (let i = 1; i <= numeroPlatos; i++){
+        subTotal = subTotal + parseFloat(document.getElementById(`precio${i}`).value)
+      }
+      let propina = parseInt(document.getElementById('propina').value)
+      let total = subTotal + (propina * subTotal / 100)
+      if (propina === 0) {
+        document.getElementById('resultado').innerHTML = `El subtotal serían: $${subTotal.toFixed(2)} y como no hay propina ese sería el total` 
+      } else {
+        document.getElementById('resultado').innerHTML = `El subtotal serían: $${subTotal} y en total más la propina serían $${total.toFixed(2)}` 
+      }
+    }
+  </script>
+</body>
+</html>

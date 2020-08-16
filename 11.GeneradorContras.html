@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Contraseñas</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #contra {
+    margin-top: 16px;
+    padding: 0 20px;
+    width: 50%;
+    text-align: center;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1>Generador de Contraseñas</h1>
+    <div class="inputs">
+      <section class="section">
+        Minúsculas? <select name="min" id="min">
+          <option value="true">Si</option>
+          <option value="false">No</option>
+        </select>
+        Mayúsculas? <select name="mayus" id="mayus">
+          <option value="true">Si</option>
+          <option value="false">No</option>
+        </select>
+        Números? <select name="num" id="num">
+          <option value="true">Si</option>
+          <option value="false">No</option>
+        </select>
+        Caracteres Especiales? <select name="esp" id="esp">
+          <option value="true">Si</option>
+          <option value="false">No</option>
+        </select>
+      </section>
+      <section class="section">
+        Longitud de la contraseña: <input id="longitud"/>
+      </section>
+      <button onclick="crearContra()" class="btn">Crear...</button>
+    </div>
+    <textarea id="contra" disabled></textarea>
+  </div>
+  <script>
+    function crearContra(){
+      const longitud = document.getElementById('longitud').value
+      const min = document.getElementById('min').value
+      const mayus = document.getElementById('mayus').value
+      const num = document.getElementById('num').value
+      const esp = document.getElementById('esp').value
+
+      if (min === 'false' && mayus === 'false' && num === 'false' && esp === 'false'){
+        return alert('Selecciona al menos una opción en "si"')
+      }
+
+      const datos = {
+        num: [48,49,50,51,52,53,54,55,56,57],
+        min: [97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122],
+        mayus: [65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],
+        esp: [32,33,34,35,36,37,39,40,41,42,43,44,45,46,47,58,59,60,61,62,63,64,91,92,93,94,95,96,123,124,125,126]
+      }
+
+      let rango = []
+
+      const keys = Object.keys(datos)
+
+      let contraseña = ''
+
+      if (min === 'true'){
+        rango.push(datos.min)
+      }
+      if (mayus === 'true'){
+        rango.push(datos.mayus)
+      }
+      if (num === 'true'){
+        rango.push(datos.num)
+      }
+      if (esp === 'true'){
+        rango.push(datos.esp)
+      }
+
+      rango = rango.flat(1)
+
+      while (contraseña.length < longitud){
+        let variable = Math.floor(Math.random()*(rango.length))
+        let char = String.fromCharCode(rango[variable])
+        contraseña = contraseña.concat(char)
+      }
+
+      document.getElementById('contra').value = contraseña
+    }
+  </script>
+</body>
+</html>

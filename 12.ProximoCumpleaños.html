@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Próximo Cumpleaños</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #contra {
+    padding: 0 20px;
+    width: 95%;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1>Calcula cuanto tiempo falta para tu cumpleaños c:</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingresa tu fecha de nacimiento: <input id="fecha" placeholder="DD-MM-AAAA"/>
+      </section>
+      <button onclick="revisa()" class="btn">Calcula...</button>
+    </div>
+    <div id="resultado"></div>
+  </div>
+  <script>
+    function revisa(){
+      let nacimiento = document.getElementById('fecha').value.split('-')
+      let dia = parseInt(nacimiento[0])
+      let mes = parseInt(nacimiento[1])
+      let año = parseInt(nacimiento[2])
+      if (!(dia >= 1 && dia <=31)){
+        document.getElementById('resultado').innerHTML = `Error, día debe estar entre 1 y 31`
+      } else if(!(mes >= 1 && mes <= 12)) {
+        document.getElementById('resultado').innerHTML = `Error, mes debe estar entre 1 y 12`
+      } else if(!(año >= 1920 && año <= (new Date().getYear() + 1899))) {
+        document.getElementById('resultado').innerHTML = `Error, el año debe estar entre 1920 y ${new Date().getYear() + 1899}`
+      } else {
+        const añoActual = new Date().getYear() + 1900
+        const cumpleañosAñoActual = new Date(añoActual, mes - 1, dia)
+        const fechaActual = new Date()
+        let diferencia
+        if (cumpleañosAñoActual.getTime() - fechaActual.getTime() < 0){
+          cumpleañosAñoActual.setYear(cumpleañosAñoActual.getYear() + 1901)
+          diferencia = cumpleañosAñoActual.getTime() - fechaActual.getTime()
+        } else {
+          diferencia = cumpleañosAñoActual.getTime() - fechaActual.getTime()
+        }
+        let dias = Math.floor(diferencia/(1000*60*60*24))
+        let horas = Math.floor((diferencia/(1000*60*60*24) - Math.floor(diferencia/(1000*60*60*24)))*24)
+        let minutos = Math.floor((((diferencia/(1000*60*60*24) - Math.floor(diferencia/(1000*60*60*24)))*24) - Math.floor(((diferencia/(1000*60*60*24) - Math.floor(diferencia/(1000*60*60*24)))*24)))*60)
+        document.getElementById('resultado').innerHTML = `Faltan ${dias} dias, con ${horas} horas y ${minutos} minutos para tu cumpleaños!`
+      }
+    }
+  </script>
+</body>
+</html>

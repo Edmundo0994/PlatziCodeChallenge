@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volumen de Formas Geométricas</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    margin: 2rem;
+  }
+
+  .datos {
+    display: inherit;
+    flex-flow: row;
+    margin-bottom: 30px;
+    font-size: 18px;
+  }
+
+  .inputs input {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  .resultado {
+    margin-top: 36px;
+    font-size: 32px;
+  }
+
+  #formaEspecifica {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1>Selecciona la forma que deseas para obtener el volumen</h1>
+    <select style="margin-top: 24px;" id='forma' onchange="forma()">
+      <option value="null"></option>
+      <option value="cilindro">Cilindro</option>
+      <option value="cubo">Cubo</option>
+      <option value="esfera">Esfera</option>
+    </select>
+    <div id='formaEspecifica'></div>
+  </div>
+  <script>
+    function forma() {
+      const forma = document.getElementById('forma').value
+      switch(forma){
+        case 'cilindro':
+          const cilindro = document.getElementById('formaEspecifica')
+          cilindro.innerHTML = `
+          <h1>Volumen de un Cilindro</h1>
+          <div class="datos">
+            <div>
+              <section class="section">
+                Altura:
+              </section>
+              <section class="section">
+                Radio:
+              </section>
+            </div>
+            <div class="inputs">
+              <input id="altura" placeholder="metros"/>
+              <input id="radio" placeholder="metros"/>        
+            </div>
+          </div>
+          <button id='btn' onclick="volumenCilindro()" class="btn">Calcular...</button>
+          <div class='resultado'>
+            El Volumen es: <span id="resultado"></span>
+          </div>
+          `
+          break;
+        case 'cubo':
+          const cubo = document.getElementById('formaEspecifica')
+          cubo.innerHTML = `
+          <h1>Volumen de un Cubo</h1>
+          <div class="datos">
+            <div>
+              <section class="section">
+                Lado:
+              </section>
+            </div>
+            <div class="inputs">
+              <input id="lado" placeholder="metros"/>      
+            </div>
+          </div>
+          <button id='btn' onclick="volumenCubo()" class="btn">Calcular...</button>
+          <div class='resultado'>
+            El Volumen es: <span id="resultado"></span>
+          </div>
+          `
+          break;
+        case 'esfera':
+          const esfera = document.getElementById('formaEspecifica')
+          esfera.innerHTML = `
+          <h1>Volumen de una Esfera</h1>
+          <div class="datos">
+            <div>
+              <section class="section">
+                Radio:
+              </section>
+            </div>
+            <div class="inputs">
+              <input id="radio" placeholder="metros"/>      
+            </div>
+          </div>
+          <button id='btn' onclick="volumenEsfera()" class="btn">Calcular...</button>
+          <div class='resultado'>
+            El Volumen es: <span id="resultado"></span>
+          </div>
+          `
+          break;
+      }
+    }
+
+    function volumenCilindro(){
+      const h = parseFloat(document.getElementById('altura').value)
+      const r = parseFloat(document.getElementById('radio').value)
+      let resultado = Math.PI * (r**2) * h
+      document.getElementById('resultado').innerHTML = resultado.toFixed(1) + ' metros cúbicos'
+    }
+
+    function volumenCubo(){
+      const l = parseFloat(document.getElementById('lado').value)
+      let resultado = l * l * l
+      document.getElementById('resultado').innerHTML = resultado.toFixed(1) + ' metros cúbicos'
+    }
+
+    function volumenEsfera(){
+      const r = parseFloat(document.getElementById('radio').value)
+      let resultado = (4/3)*Math.PI*(r**3)
+      document.getElementById('resultado').innerHTML = resultado.toFixed(1) + ' metros cúbicos'
+    }
+  </script>
+</body>
+</html>

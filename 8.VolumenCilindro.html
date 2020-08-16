@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volumen del Cilindro</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    margin: 2rem;
+  }
+
+  .datos {
+    display: inherit;
+    flex-flow: row;
+    margin-bottom: 30px;
+    font-size: 18px;
+  }
+
+  .inputs input {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  .resultado {
+    margin-top: 36px;
+    font-size: 32px;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1>Volumen de un Cilindro</h1>
+    <div class="datos">
+      <div>
+        <section class="section">
+          Altura:
+        </section>
+        <section class="section">
+          Radio:
+        </section>
+      </div>
+      <div class="inputs">
+        <input id="altura"/>
+        <input id="radio"/>        
+      </div>
+    </div>
+    <button id='btn' onclick="volumen()" class="btn">Calcular...</button>
+    <div class='resultado'>
+      El Volumen es: <span id="resultado"></span>
+    </div>
+  </div>
+  <script>
+    function volumen(){
+      const h = parseInt(document.getElementById('altura').value)
+      const r = parseInt(document.getElementById('radio').value)
+      let resultado = Math.PI * (r**2) * h
+      document.getElementById('resultado').innerHTML = resultado.toFixed(1)
+    }
+  </script>
+</body>
+</html>

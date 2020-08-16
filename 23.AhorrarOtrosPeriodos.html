@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahorros en otros periodos</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 50%;
+  }
+
+  #newFrase {
+    padding: 0 20px;
+    text-align: justify;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1>Ingresa el monto que vas a Ahorrar con una tasa de 4% a tu favor</h1>
+    <div class="inputs">
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+        <section class="section">
+          Monto: <input id="monto"/>
+         </section>
+         <button onclick="calcular()" class="btn">Calcular...</button>
+      </div>
+      <h4 style="margin-bottom: 16px;">Cuantos meses deseas ahorrar? <input id='meses'></input></h4>
+      <h4>Tendrías un ahorro de $ <span id='ahorro'></span></h4>
+    </div>
+  </div>
+  <script>
+    function calcular(){
+      let monto = parseFloat(document.getElementById('monto').value)
+      const meses = parseInt(document.getElementById('meses').value)
+      const ahorro = document.getElementById('ahorro')
+      for (let i = 1; i <= meses; i++){
+        monto = monto + (monto*0.04)
+      }
+      ahorro.innerHTML = monto.toFixed(2)
+    }
+  </script>
+</body>
+</html>

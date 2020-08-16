@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Triangulo</title>
+</head>
+<body>
+  <div
+    style="
+      display: flex;
+      flex-flow: column;
+      align-items: center;  
+      justify-content: space-around; 
+      flex-grow: 1;
+  ">
+    <header style="display: flex; flex-flow: column; align-items: center;">
+      <h1>Área de un triángulo</h1>
+      <h3 style="color: red;">¡¡¡Usar medidas en cm!!!</h3>
+    </header>
+    <div>
+      <p>El resultado es: <span id='area'>0</span> cm^2</p>
+    </div>
+    <img style="margin-top: 30px;" width="30%" src='https://www.vippng.com/png/full/136-1363327_triangulo-png.png' alt='Borde_Triángulo'>
+    <input style="margin-top: 20px; text-align: center;" id='altura'><span style="margin-left: 5px;">Altura</span></inpupt>
+    <input id='base' style="text-align: center;"><span style="margin-left: 5px;">Base</span></input>
+    <button style="margin: 20px 0;" id='ver' onclick="handleSubmitArea()">Resultado</button>
+  </div>
+  <hr>
+  <div
+    style="
+      display: flex;
+      flex-flow: column;
+      flex-grow: 1;
+      align-items: center;  
+      justify-content: space-around; 
+  ">
+    <h1>Determina que tipo de triangulo es por medio de sus lados en cm</h1>
+    <p>El resultado es: <span id='tipo'></span></p>
+    <img style="margin-top: 30px;" width="20%" src='https://es-static.z-dn.net/files/d5d/3c75a97024bd9d95c9ab7adbdf3a77b6.jpg' alt='Borde_Triángulo'>
+    <input style="margin-top: 20px; text-align: center;" id='a'><span style="margin-left: 5px;">Lado a</span></inpupt>
+    <input id='b' style="text-align: center;"><span style="margin-left: 5px;">Lado b</span></input>
+    <input id='c' style="text-align: center;"><span style="margin-left: 5px;">Lado c</span></input>
+    <button style="margin: 20px 0;" id='ver' onclick="handleSubmitType()">Resultado</button>
+  </div>
+  <script>
+    const handleSubmitArea = () => {
+      const altura = document.getElementById('altura').value
+      const base = document.getElementById('base').value
+      const resultado = document.getElementById('area')
+
+      // Área
+      const area = (altura*base)/2
+      resultado.innerHTML = ''
+      resultado.innerHTML = area
+    }
+
+    const handleSubmitType = () => {
+      const a = document.getElementById('a').value
+      const b = document.getElementById('b').value
+      const c = document.getElementById('c').value
+      const type = document.getElementById('tipo')
+      
+      if ( a === b && a === c){
+        type.innerHTML = 'Equilátero'
+      }
+      if (( a === b || b === c || a === c ) && ( a !== b || b !== c || a !== c )){
+        type.innerHTML = 'Isóceles'
+      }
+      if ( a !== b && a !== c && b !== c ){
+        type.innerHTML = 'Escaleno'
+      }
+    }
+    </script>
+</body>
+</html>

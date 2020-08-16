@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuanto vas a Ahorrar?</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 50%;
+  }
+
+  #newFrase {
+    padding: 0 20px;
+    text-align: justify;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1>Ingresa el monto que vas a Ahorrar con una tasa de 4% a tu favor</h1>
+    <div class="inputs">
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+        <section class="section">
+          Monto: <input id="monto"/>
+         </section>
+         <button onclick="calcular()" class="btn">Calcular...</button>
+      </div>
+      <h4>En 6 meses tendrás un total de ahorro de $ <span id='seisMeses'></span></h4>
+      <h4>En 1 año tendrás un total de ahorro de $ <span id='unAño'></span></h4>
+      <h4>En 2 años tendrás un total de ahorro de $ <span id='dosAños'></span></h4>
+    </div>
+  </div>
+  <script>
+    function calcular(){
+      let monto = parseFloat(document.getElementById('monto').value)
+      const seisMeses = document.getElementById('seisMeses')
+      const unAño = document.getElementById('unAño')
+      const dosAños = document.getElementById('dosAños')
+
+      for (let i = 1; i <= 24; i++){
+        monto = monto + (monto*0.04)
+        switch(i){
+          case 6:
+            seisMeses.innerHTML = monto.toFixed(2)
+            break;
+          case 12:
+            unAño.innerHTML = monto.toFixed(2)
+            break;
+          case 24:
+            dosAños.innerHTML = monto.toFixed(2)
+            break;
+        }
+      }
+    }
+  </script>
+</body>
+</html>

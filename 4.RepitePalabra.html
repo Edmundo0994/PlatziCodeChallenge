@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RepitePalabra</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <div class="inputs">
+      <section class="section">
+        Frase a repetir: <input id="frase"/>
+      </section>
+      <section class="section">
+        Veces a repetir: <input id="veces"/>
+      </section>
+      <button onclick="repetir()" class="btn">Repite...</button>
+    </div>
+    <div id="repeticiones"></div>
+  </div>
+  <script>
+    let x = 0
+    function repetir(){
+      const frase = document.getElementById('frase').value
+      const veces = document.getElementById('veces').value
+      console.log(frase)
+      if (x < veces){
+        const repeticiones = document.getElementById('repeticiones')
+        const textNode = document.createElement('div')
+        textNode.innerHTML = frase
+        repeticiones.appendChild(textNode)
+        x++
+        repetir()
+      }
+    }
+  </script>
+</body>
+</html>

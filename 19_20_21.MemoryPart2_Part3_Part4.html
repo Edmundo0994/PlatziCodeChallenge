@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Parte 2-3-4</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+    padding: 2rem;
+  } 
+
+  #resultado {
+    font-size: 24px;
+  }
+
+  .escondido {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+  }
+
+  .pantalla {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+  }
+  
+  .pantalla h2 {
+    margin-top: 45px;
+    width: 80%;
+    font-size: 35px;
+    border-radius: 10px;
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    justify-content: center;
+  }
+
+  .pad {
+    border-radius: 15px;
+    background-color: rgb(88, 88, 88);
+    display: grid;
+    width: 80%;
+    height: 50%;
+    grid-template-columns: 10% 16% 16% 16% 16% 16% 10%;
+    grid-template-rows: 5% 45% 45% 5% ;
+    grid-template-areas: 
+      ". . . . . . ."
+      ". quotes hash dollar perc clear ."
+      ". par1 par2 slash something equal ."
+      ". . . . . . ."
+      ;
+  }
+
+  #quotes {
+    grid-area: quotes;
+  }
+  #hash {
+    grid-area: hash;
+  }
+  #dollar {
+    grid-area: dollar;
+  }
+  #perc {
+    grid-area: perc;
+  }
+  #par1 {
+    grid-area: par1;
+  }
+  #par2 {
+    grid-area: par2;
+  }
+  #slash {
+    grid-area: slash;
+  }
+  #something {
+    grid-area: something;
+  }
+  #clear {
+    grid-area: clear;
+  }
+  #equal {
+    grid-area: equal;
+  }
+
+  .btn {
+    background-color: gray;
+    padding: 15px;
+    margin: 8px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 24px;
+    border: none;
+    color: white;
+    text-align: center;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  #contra {
+    padding: 0 20px;
+    width: 95%;
+  }
+</style>
+<body id='body'>
+  <div class="contenedor">
+    <h1 id='titulo' style="margin-bottom: 24px;">Click para mostrar 4 caracteres entre "#$%()/& de forma aleatoria</h1>
+    <button onclick="escribe()" class="btn" id='btn'>Click</button>
+    <button style="display: none;" onclick="continuar()" class="btn" id='btn-continuar'>Continuar...</button>
+    <button style="display: none;" onclick="repetir()" class="btn" id='btn-reiniciar'>Reiniciar...</button>
+    <div style="margin-top: 24px;" id="resultado">
+    </div>
+    <div id='escondido' class='escondido' style="display: none;">
+      <div class="pantalla">
+        <h2 cols="18" row="1" id="valores"></h2>
+      </div>
+      <div class="pad">
+        <input class="btn" type="button" value='"' id="quotes">
+        <input class="btn" type="button" value="#" id="hash">
+        <input class="btn" type="button" value="$" id="dollar">
+        <input class="btn" type="button" value="%" id="perc">
+        <input class="btn" type="button" value="(" id="par1">
+        <input class="btn" type="button" value=")" id="par2">
+        <input class="btn" type="button" value="/" id="slash">
+        <input class="btn" type="button" value="&" id="something">
+        <input class="btn" type="button" value="◀" id="clear">
+        <input class="btn" type="button" value="=" id="equal">
+      </div>
+    </div>
+  </div>
+  <script>
+    const alt = []
+    function escribe() {
+      const boton = document.getElementById('btn')
+      const botonContinuar = document.getElementById('btn-continuar')
+      const array = ['34', '35', '36', '37', '38', '40', '41', '47'] 
+      for (let i = 0; i < 4; i++){
+        let num = Math.floor(Math.random()*8)
+        alt[i] = array[num]
+      }
+      let resultado = ''
+      alt.map(charcode => resultado = resultado + String.fromCharCode(charcode))
+      document.getElementById('resultado').innerHTML = `Salió ${resultado} de forma aleatoria`
+      boton.style = "display: none;"
+      botonContinuar.style = "display: inline-block;"
+    }
+    function continuar () {
+      const botonContinuar = document.getElementById('btn-continuar')
+      botonContinuar.style = "display: none;"
+      const botonReiniciar = document.getElementById('btn-reiniciar')
+      const titulo = document.getElementById('titulo')
+      titulo.innerHTML = 'Escoja el orden que aparecio previamente...'
+      const resultado = document.getElementById('resultado')
+      resultado.innerHTML = ''
+      const escondido = document.getElementById('escondido')
+      escondido.style = 'display: flex'
+
+      const pantalla = document.getElementById('valores')
+
+      const quotes = document.getElementById('quotes')
+      const hash = document.getElementById('hash')
+      const dollar = document.getElementById('dollar')
+      const perc = document.getElementById('perc')
+      const par1 = document.getElementById('par1')
+      const par2 = document.getElementById('par2')
+      const slash = document.getElementById('slash')
+      const something = document.getElementById('something')
+      const clear = document.getElementById('clear')
+      const equal = document.getElementById('equal')
+      
+      let cant = 4
+
+      quotes.onclick = () => {
+        if (pantalla.innerHTML.length < cant){
+          pantalla.innerHTML = pantalla.innerHTML + '"'
+        }
+      }
+      hash.onclick = () => {
+        if (pantalla.innerHTML.length < cant){
+          pantalla.innerHTML = pantalla.innerHTML + '#'
+        }
+      }
+      dollar.onclick = () => {
+        if (pantalla.innerHTML.length < cant){
+          pantalla.innerHTML = pantalla.innerHTML + '$'
+        }
+      }
+      perc.onclick = () => {
+        if (pantalla.innerHTML.length < cant){
+          pantalla.innerHTML = pantalla.innerHTML + '%'
+        }
+      }
+      par1.onclick = () => {
+        if (pantalla.innerHTML.length < cant){
+          pantalla.innerHTML = pantalla.innerHTML + '('
+        }
+      }
+      par2.onclick = () => {
+        if (pantalla.innerHTML.length < cant){
+          pantalla.innerHTML = pantalla.innerHTML + ')'
+        }
+      }
+      slash.onclick = () => {
+        if (pantalla.innerHTML.length < cant){
+          pantalla.innerHTML = pantalla.innerHTML + '/'
+        }
+      }
+      something.onclick = () => {
+        if (pantalla.innerHTML.length < cant){
+          pantalla.innerHTML = pantalla.innerHTML + '&'
+          cant = cant + 4
+        }
+      }
+      clear.onclick = () => {
+        const array = pantalla.innerHTML.replace(/amp;/g, '').split('')
+        const borrar = array.pop()
+        if (borrar === '&'){
+          cant = cant - 4
+        }
+        pantalla.innerHTML = array.join('')
+      }
+      equal.onclick = () => {
+        cant = 4
+        let respuesta = pantalla.innerHTML.replace(/amp;/g, '').split('')
+        let charRes = []
+        respuesta.map( char => {
+          charRes.push(char.charCodeAt(0))
+        })
+        for (let i = 0; i < alt.length; i++){
+          alt[i] = parseInt(alt[i])
+        }
+        if (alt[0] === charRes[0] && alt[1] === charRes[1] && alt[2] === charRes[2] && alt[3] === charRes[3]){
+          escondido.style = 'display: none;'
+          titulo.innerHTML = 'Felicidades! tu respuesta es correcta, si era igual a la solución'
+          botonReiniciar.style = 'display: inline-block'
+        } else {
+          escondido.style = 'display: none;'
+          titulo.innerHTML = 'Lastima! tu respuesta es incorrecta, no es igual a la solución'
+          botonReiniciar.style = 'display: inline-block'
+        }
+      }
+    }
+    function repetir() {
+      const boton = document.getElementById('btn')
+      boton.style = 'display: inline-block;'
+      const botonReiniciar = document.getElementById('btn-reiniciar')
+      botonReiniciar.style = 'display: none;'
+      const titulo = document.getElementById('titulo')
+      titulo.innerHTML = 'Click para mostrar 4 caracteres entre "#$%()/& de forma aleatoria'
+      const pantalla = document.getElementById('valores')
+      pantalla.innerHTML = ''
+    }
+  </script>
+</body>
+</html>

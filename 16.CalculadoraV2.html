@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CalculadoraV2</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header {
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contenedor {
+    display: flex;
+    width: 100%;
+    height: 85vh;
+    justify-content: center;
+  }
+
+  .calculadora {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 25px;
+    background: #646464;
+    min-width: 450px;
+    width: 45%;
+    height: 95%;
+  }
+
+  .pantalla {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 20%;
+  }
+  
+  .pantalla h2 {
+    margin-top: 45px;
+    width: 80%;
+    font-size: 35px;
+    border-radius: 10px;
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+  }
+
+  .botones {
+    display: grid;
+    width: 100%;
+    height: 80%;
+    grid-template-columns: 10% 20% 20% 20% 20% 10%;
+    grid-template-rows: 10% 20% 20% 20% 20% 10% ;
+    grid-template-areas: 
+      ". clr . . . ."
+      ". seven eight nine plus ."
+      ". four five six plus ."
+      ". one two three mult . "
+      ". point cero equal mult ."
+      ". . . . . ."
+      ;
+
+  }
+
+  .btn {
+    margin: 8px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 40px;
+    border: none;
+    color: #2d3142;
+    text-align: center;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  #reset {
+    grid-area: clr;
+    font-size: 24px;
+  }
+  #cero {
+    grid-area: cero;
+  }
+  #one {
+    grid-area: one;
+  }
+  #two {
+    grid-area: two;
+  }
+  #three {
+    grid-area: three;
+  }
+  #four {
+    grid-area: four;
+  }
+  #five {
+    grid-area: five;
+  }
+  #six {
+    grid-area: six;
+  }
+  #seven {
+    grid-area: seven;
+  }
+  #eight {
+    grid-area: eight;
+  }
+  #nine{
+    grid-area: nine;
+  }
+  #suma{
+    grid-area: plus;
+  }
+  #multiplicacion{
+    grid-area: mult;
+  }
+  #point{
+    grid-area: point;
+  }
+  #equal{
+    grid-area: equal;
+  }
+
+</style>
+<body>
+  <div class='header'>
+    <h1>Calculadora</h1>
+  </div>
+  <div class="contenedor">
+    <div class="calculadora">
+      <div class="pantalla">
+        <h2 cols="18" row="1" id="valores"></h2>
+      </div>
+      <div class="botones">
+        <input class="btn" type="button" value="CE" id="reset">
+        <input class="btn" type="button" value="0" id="cero">
+        <input class="btn" type="button" value="1" id="one">
+        <input class="btn" type="button" value="2" id="two">
+        <input class="btn" type="button" value="3" id="three">
+        <input class="btn" type="button" value="4" id="four">
+        <input class="btn" type="button" value="5" id="five">
+        <input class="btn" type="button" value="6" id="six">
+        <input class="btn" type="button" value="7" id="seven">
+        <input class="btn" type="button" value="8" id="eight">
+        <input class="btn" type="button" value="9" id="nine">
+        <input class="btn" type="button" value="+" id="suma">
+        <input class="btn" type="button" value="x" id="multiplicacion">
+        <input class="btn" type="button" value="." id="point">
+        <input class="btn" type="button" value="=" id="equal">
+      </div>
+    </div>
+  </div>
+  <script>
+    const reset = document.getElementById('reset')
+    const cero = document.getElementById('cero')
+    const one = document.getElementById('one')
+    const two = document.getElementById('two')
+    const three = document.getElementById('three')
+    const four = document.getElementById('four')
+    const five = document.getElementById('five')
+    const six = document.getElementById('six')
+    const seven = document.getElementById('seven')
+    const eight = document.getElementById('eight')
+    const nine = document.getElementById('nine')
+    const suma = document.getElementById('suma')
+    const multiplicacion = document.getElementById('multiplicacion')
+    const point = document.getElementById('point')
+    const equal = document.getElementById('equal')
+
+    const pantalla = document.getElementById('valores')
+
+    let total = 0
+    let subtotalArray = []
+    let subtotal = 0
+    let subsubtotal = 1
+
+    reset.onclick = () => {
+      subtotal = 0
+      total = 0
+      subtotalArray = []
+      operador = ''
+      pantalla.innerHTML = ''
+    }
+
+    cero.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '0'
+    }
+    one.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '1'
+    }
+    two.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '2'
+    }
+    three.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '3'
+    }
+    four.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '4'
+    }
+    five.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '5'
+    }
+    six.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '6'
+    }
+    seven.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '7'
+    }
+    eight.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '8'
+    }
+    nine.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '9'
+    }
+    point.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '.'
+    }
+    suma.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '+'
+    }
+    multiplicacion.onclick = () => {
+      pantalla.innerHTML = pantalla.innerHTML + '*'
+    }
+    equal.onclick = () => {
+      subtotalArray = pantalla.innerHTML.split('+')
+      subtotalArray.map( index => {
+        index = index.split('*')
+        subsubtotal = 1
+        if (index.length !== 1){
+          index.map( num => {
+            subsubtotal = subsubtotal * num
+          })
+          subtotal = subtotal + subsubtotal
+        } else {
+          subtotal = subtotal + parseFloat(index)
+        }
+      })
+      pantalla.innerHTML = subtotal
+    }
+  </script>
+</body>
+</html>

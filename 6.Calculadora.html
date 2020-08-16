@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    margin: 2rem;
+  }
+
+  .datos {
+    display: inherit;
+    flex-flow: row;
+    margin-bottom: 30px;
+    font-size: 18px;
+  }
+
+  .inputs input {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  .resultado {
+    margin-top: 36px;
+    font-size: 32px;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <div class="datos">
+      <div>
+        <section class="section">
+          Ingrese el primer número 
+        </section>
+        <section class="section">
+          Operador: 
+        </section>
+        <section class="section">
+          Ingrese el segundo número 
+        </section>
+      </div>
+      <div class="inputs">
+        <input id="a"/>
+        <input id="operador"/>
+        <input id="b"/>        
+      </div>
+    </div>
+    <button onclick="calcular()" class="btn">Calcular...</button>
+    <div class='resultado'>
+      El resultado es: <span id="resultado"></span>
+    </div>
+  </div>
+  <script>
+    function calcular(){
+      const a = parseInt(document.getElementById('a').value) 
+      const b = parseInt(document.getElementById('b').value)
+      const operador = document.getElementById('operador').value
+      let resultado = 0
+      switch (operador) {
+        case '+':
+          resultado = a + b
+          break;
+        case '-':
+          resultado = a - b
+          break;
+        case '*':
+          resultado = a * b
+          break;
+        case '/':
+          resultado = a / b
+          break;
+        default:
+          resultado = 'Lo siento, escoge un operador correcto'
+      }
+
+      document.getElementById('resultado').innerHTML = resultado
+    }
+  </script>
+</body>
+</html>

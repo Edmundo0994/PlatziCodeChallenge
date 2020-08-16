@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahorros en otros periodos</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 50%;
+  }
+
+  #newFrase {
+    padding: 0 20px;
+    text-align: justify;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1>Ingresa el monto que vas a Ahorrar</h1>
+    <div class="inputs">
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+        <section class="section">
+          Monto: <input id="monto"/>
+         </section>
+         <button onclick="calcular()" class="btn">Calcular...</button>
+      </div>
+      <h4 style="margin-bottom: 16px;">En tu banco al 4%, en un año ahorraras $ <span id='año4'>0</span></h4>
+      <h4 style="margin-bottom: 16px;">En tu banco al 4%, en dos años ahorraras $ <span id='dosAños4'>0</span></h4>
+      <h4 style="margin-bottom: 16px;">En tu banco al 4%, en tres años ahorraras $ <span id='tresAños4'>0</span></h4>
+      <br>
+      <h4 style="margin-bottom: 16px;">En el banco rival al 3% + 7% año a año, en un año ahorraras $ <span id='año3'>0</span></h4>
+      <h4 style="margin-bottom: 16px;">En el banco rival al 3% + 7% año a año, en dos años ahorraras $ <span id='dosAños3'>0</span></h4>
+      <h4 style="margin-bottom: 16px;">En el banco rival al 3% + 7% año a año, en tres años ahorraras $ <span id='tresAños3'>0</span></h4>
+      <h3 style="display: none;" id='resultado'>En el primer año te conviene <span id='primerAño'></span>, en el segundo año te conviene <span id='segundoAño'></span>, y en el tercer año te conviene <span id='tercerAño'></span>!</h3>
+    </div>
+  </div>
+  <script>
+    function calcular(){
+      let monto = parseFloat(document.getElementById('monto').value)
+
+      let calculo4 = monto
+      let calculo3 = monto
+
+      const año4 = document.getElementById('año4')
+      const dosAños4 = document.getElementById('dosAños4')
+      const tresAños4 = document.getElementById('tresAños4')
+      const año3 = document.getElementById('año3')
+      const dosAños3 = document.getElementById('dosAños3')
+      const tresAños3 = document.getElementById('tresAños3')
+
+      for (let i = 1; i <= 36; i++){
+        calculo4 = calculo4 + (calculo4 * 0.04)
+        calculo3 = calculo3 + (calculo3 * 0.03)
+        if (i === 12 || i === 24 || i === 36){
+          calculo3 = calculo3 + (calculo3 * 0.07)
+        }
+        switch (i){
+          case 12:  
+            año4.innerHTML = calculo4.toFixed(2)
+            año3.innerHTML = calculo3.toFixed(2)
+            if (calculo4 > calculo3) {
+              document.getElementById('primerAño').innerHTML = 'tu banco actual'
+            } else {
+              document.getElementById('primerAño').innerHTML = 'el banco rival'
+            }
+            document.getElementById('resultado').style = 'display: block;'
+            break
+          case 24:
+            dosAños4.innerHTML = calculo4.toFixed(2)
+            dosAños3.innerHTML = calculo3.toFixed(2)
+            if (calculo4 > calculo3) {
+              document.getElementById('segundoAño').innerHTML = 'tu banco actual'
+            } else {
+              document.getElementById('segundoAño').innerHTML = 'el banco rival'
+            }
+            document.getElementById('resultado').style = 'display: block;'
+            break
+          case 36:
+            tresAños4.innerHTML = calculo4.toFixed(2)
+            tresAños3.innerHTML = calculo3.toFixed(2)
+            if (calculo4 > calculo3) {
+              document.getElementById('tercerAño').innerHTML = 'tu banco actual'
+            } else {
+              document.getElementById('tercerAño').innerHTML = 'el banco rival'
+            }
+            document.getElementById('resultado').style = 'display: block;'
+            break
+          default:
+            break
+        }
+      }
+    }
+  </script>
+</body>
+</html>

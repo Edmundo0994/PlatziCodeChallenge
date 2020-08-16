@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convertidor</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .resultado {
+    font-size: 32px;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <div class="inputs">
+      <section class="section">
+        Horas: <input id="horas"/>
+      </section>
+      <section class="section">
+        Minutos: <input id="minutos"/>
+      </section>
+      <button onclick="calcular()" class="btn">Calcular...</button>
+    </div>
+    <div>
+      <p class="resultado">En total son <span id='resultado'>0</span> segundos</p>
+    </div>
+  </div>
+  <script>
+    function calcular(){
+      const horas = document.getElementById('horas').value
+      const minutos = document.getElementById('minutos').value
+      const resultado = document.getElementById('resultado')
+      const total = (horas * 60 * 60) + (minutos * 60)
+      resultado.innerHTML = total
+    }
+  </script>
+</body>
+</html>

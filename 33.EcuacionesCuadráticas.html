@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecuaciones Cuadráticas</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input{
+    margin-left: 12px;
+    width: 50px;
+    margin-right: 10px;
+    text-align: center;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .deadSpace {
+    margin: 40px 10px;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #contra {
+    padding: 0 20px;
+    width: 95%;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Calculadora de Ecuaciones Cuadráticas</h1>
+    <h3 style="margin-bottom: 24px;">Ingresa los siguientes datos</h3>
+    <div class="inputs">
+      <section class="section">
+        <input id="a" placeholder="A"/>X^2 + <input id="b" placeholder="B"/> X + <input id="c" placeholder="C"/>
+      </section>
+      <section class="section">
+        X1 = <span style="margin-left: 10px;" id='x1'>0</span>
+        <span class='deadSpace'></span>
+        X2 = <span style="margin-left: 10px;" id='x2'>0</span>
+      </section>
+    </div>
+    <button accesskey="enter" onclick="calcula()" class="btn" id='boton'>Calcular...</button>
+  </div>
+  <script>
+    // -b +- sqrt(b^2 - 4ac) / 2a
+    window.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) calcula()
+    })
+
+    function calcula() {
+      const a = parseFloat(document.getElementById('a').value) || 0
+      const b = parseFloat(document.getElementById('b').value) || 0
+      const c = parseFloat(document.getElementById('c').value) || 0
+
+      let x1
+      let x2
+
+      const x1Node = document.getElementById('x1')
+      const x2Node = document.getElementById('x2')
+
+      function raiz() {
+        return (b)**2 - (4*(a)*(c))
+      }
+
+      function tieneDecimal(num) {
+        return num - Math.floor(num) === 0
+      }
+
+      function tieneDecimalRaiz(num) {
+        return Math.sqrt(raiz()*-1) - Math.floor(Math.sqrt(raiz()*-1)) === 0
+      }
+
+      if (a === 0 && b === 0 && c === 0){
+        return alert('Math Error :c')
+      }
+
+      if (a === 0 && b === 0){
+        return alert('No tiene soluciones')
+      }
+      
+      if (a === 0) {
+        x1 = (-1*c)/b
+        return alert(`No es una ecuación cuadrática, su grado es 1 por ende x = ${x1}`)
+      }
+
+      if (raiz() < 0) {
+        alert('ALERTA! El resultado de la raiz cuadrada es negativa, por ende el resultado es un número imaginario...')
+        if (tieneDecimalRaiz()) {
+          x1Node.innerHTML = `(${-1*b}+${Math.sqrt(raiz()*-1)}i)/${2*a}`
+          x2Node.innerHTML = `(${-1*b}-${Math.sqrt(raiz()*-1)}i)/${2*a}`
+        } else {
+          x1Node.innerHTML = `(${-1*b}+√${raiz()*-1}i)/${2*a}`
+          x2Node.innerHTML = `(${-1*b}-√${raiz()*-1}i)/${2*a}`
+        }
+      } else {
+        x1 = (-(b) + Math.sqrt(raiz()))/(2*(a))
+        x2 = (-(b) - Math.sqrt(raiz()))/(2*(a))
+        if (tieneDecimal(x1)) {
+          x1Node.innerHTML = x1
+        } else {
+          x1Node.innerHTML = x1.toFixed(2)
+        }
+        if (tieneDecimal(x2)) {
+          x2Node.innerHTML = x2
+        } else {
+          x2Node.innerHTML = x2.toFixed(2)
+        }
+      }      
+    }
+  </script>
+</body>
+</html>

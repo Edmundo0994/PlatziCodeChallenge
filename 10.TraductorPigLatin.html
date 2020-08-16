@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pig Latin</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 2rem;
+  }
+
+  .inputs {
+    display: inherit;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #newFrase {
+    padding: 0 20px;
+    text-align: justify;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <div class="inputs">
+      <section class="section">
+        Frase para traducir a Pig Latin <input id="frase"/>
+      </section>
+      <button onclick="revisa()" class="btn">Traduce...</button>
+    </div>
+    <div id="newFrase"></div>
+  </div>
+  <script>
+    function revisa(){
+      const frase = document.getElementById('frase').value
+      const startVowel = (word) => `${word}way`
+      const startConsonant = (word) => {
+        const arrayWord = word.toLowerCase().split('')
+        const vowels = ['a','e','i','o','u']
+        let index, initial, ends;
+
+        for (let i = 0; i < arrayWord.length - 1; i++){
+          const char = arrayWord[i]
+          if (vowels.indexOf(char) > -1) {
+            index = i
+            break
+          }
+        }
+
+        initial = word.substring(index, word.length)
+        ends = word.substring(0, index)
+
+        return `${initial}${ends}ay`
+      }
+      const translate = (text) => {
+        const newText = []
+        const vowels = ['a','e','i','o','u']
+        const paragraphArray = text.replace(/[.,]+/gi, '').toLowerCase().split(' ')
+
+        for (let i = 0; i <= paragraphArray.length - 1; i++){
+          const word = paragraphArray[i]
+          const char = word.charAt(0)
+          if (vowels.indexOf(char) > 1){
+            newText.push(startVowel(word))
+          } else {
+            newText.push(startConsonant(word))
+          }
+        }
+        return newText.join(' ')
+      }
+      
+      document.getElementById('newFrase').innerHTML = translate(frase)
+    }
+  </script>
+</body>
+</html>

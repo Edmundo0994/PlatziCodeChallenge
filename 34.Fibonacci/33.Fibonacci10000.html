@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serie de Fibonacci</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input{
+    margin-left: 12px;
+    width: 80px;
+    margin-right: 10px;
+    text-align: center;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #contra {
+    padding: 0 20px;
+    width: 95%;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Serie de Fibonacci</h1>
+    <div class="inputs">
+      <section class="section">
+        Que posición de la serie deseas saber? <input id="n" placeholder="Número..."/>
+      </section>
+      <h2 id='resultado'></h2>
+    </div>
+    <button accesskey="enter" onclick="calcula()" class="btn" id='boton'>Calcular...</button>
+  </div>
+  <script>
+    function calcula() {
+      const n = document.getElementById('n').value
+      const resultado = document.getElementById('resultado')
+      
+      // function fibonacciRecursivo(n){
+      //   if (n === 0 || n === 1) return 1
+      //   return fibonacciRecursivo(n-1) + fibonacciRecursivo(n-2)
+      // }
+
+      function fibonacciDinamico(n, memo = {}){
+        if (n === 0 || n === 1) return 1
+        
+        if (memo[n]) {
+          return memo[n]
+        } else {
+          let res = fibonacciDinamico(n - 1, memo) + fibonacciDinamico(n - 2, memo)
+          memo[n] = res
+          return res
+        }
+      }
+      console.log(fibonacciDinamico(n))
+      return resultado.innerHTML = fibonacciDinamico(n)
+    }
+  </script>
+</body>
+</html>
