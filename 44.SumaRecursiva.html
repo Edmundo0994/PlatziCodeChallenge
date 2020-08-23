@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suma recursiva</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Suma recursiva</h1>
+    <div style="margin-top: 24px;" id="resultado"></div>
+  </div>
+  <script>
+    let total = 0
+    function suma() {
+      let num = prompt(`Dame un número`)
+      if (num === 0 || num === ''){
+        return alert(`El total es: ${total}`)
+      } else {
+        total = total + parseFloat(num)
+        suma()
+      }
+    }
+    suma()
+  </script>
+</body>
+</html>

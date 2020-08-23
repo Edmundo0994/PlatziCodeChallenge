@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    class Personaje {
+      constructor (nombre, ataque, defensa, vida){
+        this.nombre = nombre
+        this.ataque = ataque
+        this.defensa = defensa
+        this.vida = vida
+      }
+    }
+
+    let cresques = new Personaje('Cresques', 1, 4, 20)
+    let catalina = new Personaje('Catalina', 5, 1, 10)
+    let helena = new Personaje('Helena', 3, 3, 30)
+    let niccolo = new Personaje('Niccolò', 1, 2, 50)
+    let ilaria = new Personaje('Ilaria', 1, 4, 25)
+
+    let personajes = [cresques, catalina, helena, niccolo, ilaria]
+
+    function jugar() {
+      let atacante = parseInt(prompt(`Que personaje deseas ser? 
+        creques [0]
+        catalina [1]
+        helena [2]
+        niccolo [3]
+        ilaria [4]
+      `))
+
+      let defensor = parseInt(prompt(`Que personaje deseas atacar? 
+        creques [0]
+        catalina [1]
+        helena [2]
+        niccolo [3]
+        ilaria [4]
+      `))
+
+      if (personajes[atacante].ataque > personajes[defensor].defensa){
+        personajes[defensor].vida = personajes[defensor].vida - personajes[atacante].ataque
+        alert(`${personajes[defensor].nombre} le queda ${personajes[defensor].vida} puntos de vida`)
+      } else {
+        alert(`El ataque es menor a la defensa del contricante, por lo que no sucede nada`)
+      }
+
+      if(prompt('Deseas escoger otro jugador? S=> Si N=> No') === 'S'){
+        jugar()
+      } else {
+        console.log(`Pues los jugadores quedaron con los siguientes puntos de vida
+          [20] creques: ${personajes[0].vida}
+          [10] catalina: ${personajes[1].vida}
+          [30] helena: ${personajes[2].vida}
+          [50] niccolo: ${personajes[3].vida}
+          [25] ilaria: ${personajes[4].vida}
+        `)
+      }
+    }
+
+    jugar()
+  </script>
+</body>
+</html>

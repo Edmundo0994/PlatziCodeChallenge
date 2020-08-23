@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Ips</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .contenedor {
+    width: 100%;
+    height: 100vh;
+    min-width: 750px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+  }
+
+  .contenedor h1 {
+    margin-bottom: 36px;
+  }
+
+  .inputs {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .section {
+    margin-bottom: 36px;
+  }
+
+  .btn {
+    margin: 8px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 24px;
+    border: solid 1px black;
+    color: #000504;
+    text-align: center;
+    padding: 16px;
+    margin-bottom: 36px;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.397);
+    color: white;
+    transform: scale(1.1);
+  }
+  
+  #resultado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
+<body id='body'>
+  <div class="contenedor">
+    <h1>Generador de Ips</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingrese la cantidad de Ips que deseas <input id="límite"/>
+      </section>
+    </div>
+    <button onclick="generar()" class="btn">Generar...</button>
+    <p id='resultado'></p>
+  </div>
+  <script>
+    function generar(){
+      document.getElementById('resultado').innerHTML = ''
+      let limite = document.getElementById('límite').value
+      let ips = []
+      for (let i = 0; i < limite; i++){
+        let ip = []
+        for (let x = 0; x < 4; x++){
+          let number = Math.floor(Math.random() * 256)
+          ip.push(number)
+        }
+        if (ips.length === 0){
+          ips.push(ip)
+        } else {
+          let verdadero = false
+          ips.forEach( IP => {
+            if (JSON.stringify(IP) == JSON.stringify(ip)){
+              verdadero = true
+              console.log('repetida')
+            }
+          })
+          if (!verdadero){
+            ips.push(ip)
+          }
+        }
+      }
+      console.log(ips)
+      document.getElementById('resultado').innerHTML = 'Revisa la consola para los resultados'
+    }
+  </script>
+</body>
+</html>
