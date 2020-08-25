@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackjack</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    color: white;
+    background-color: rgb(11, 109, 11);
+    height: 100vh;
+    min-width: 915px;
+    display: grid;
+    grid-template-rows: 10% 75% 15%;
+    grid-template-areas: 
+    'titulo'
+    'mesa'
+    'botones'
+    ;
+  }
+
+  .titulo {
+    grid-area: titulo;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .mesa {
+    grid-area: mesa;
+  }
+
+  .mesaJuego {
+    background-color: rgb(7, 189, 7);
+    height: 100%;
+    display: grid;
+    grid-template-rows: 15% auto;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: 
+    'jugador compu'
+    'cartasJugador cartasCompu'
+    ;
+  }
+
+  #jugador{
+    grid-area: jugador;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid black;
+
+  }
+  #compu{
+    grid-area: compu;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid black;
+  }
+  #cartasJugador{
+    grid-area: cartasJugador;
+    border: 2px solid black;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #cartasCompu{
+    grid-area: cartasCompu;
+    border: 2px solid black;
+
+  }
+
+  .botones {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 50%;
+    width: 200px;
+  }
+  .hit {
+    background-color: rgb(69, 201, 224);
+    color: black;
+  }
+  .stand {
+    background-color: rgb(235, 65, 65);
+    color: white
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <div class='titulo'>
+      <h1>BlackJack</h1>
+      <p>Jugador: <span id='jugadorPuntaje'>0</span></p>
+      <p>Computadora: <span id='computadoraPuntaje'>0</span></p>
+    </div>
+    <div class="mesa">
+      <div class="mesaJuego">
+        <h1 id='jugador'>Jugador: <span id='puntajeJugador'>0</span></h1>
+        <div id="cartasJugador">
+          
+        </div>
+        <h1 id='compu'>Computadora: <span id='puntajeComputadora'>0</span></h1>
+        <div id="cartasCompu">
+          
+        </div>
+      </div>
+    </div>
+    <div class='botones'>
+      <button id='hit' onclick="hit()" class="btn hit">Hit</button>
+      <button id='stand' onclick="stand()" class="btn stand">Stand</button>
+      <button id='deal' onclick="deal()" class="btn deal" disabled>Deal</button>
+    </div>
+  </div>
+  <script>
+    alert('Blackjack! Hit es para que la mesa te de una carta, una vez consideres que estás bien, dale a stand para que la computadora saque sus cartas. Una vez mostrado el resultado dale a Deal para seguir con la siguiente partida! Disfruta del juego!')
+
+    const carta2 = new Image(); carta2.src = './utils/images/2.png'; carta2.style = 'width: auto; margin: 4px; height: 200px;'
+    const carta3 = new Image(); carta3.src = './utils/images/3.png'; carta3.style = 'width: auto; margin: 4px; height: 200px;'
+    const carta4 = new Image(); carta4.src = './utils/images/4.png'; carta4.style = 'width: auto; margin: 4px; height: 200px;'
+    const carta5 = new Image(); carta5.src = './utils/images/5.png'; carta5.style = 'width: auto; margin: 4px; height: 200px;'
+    const carta6 = new Image(); carta6.src = './utils/images/6.png'; carta6.style = 'width: auto; margin: 4px; height: 200px;'
+    const carta7 = new Image(); carta7.src = './utils/images/7.png'; carta7.style = 'width: auto; margin: 4px; height: 200px;'
+    const carta8 = new Image(); carta8.src = './utils/images/8.png'; carta8.style = 'width: auto; margin: 4px; height: 200px;'
+    const carta9 = new Image(); carta9.src = './utils/images/9.png'; carta9.style = 'width: auto; margin: 4px; height: 200px;'
+    const carta10 = new Image(); carta10.src = './utils/images/10.png'; carta10.style = 'width: auto; margin: 4px; height: 200px;'
+    const cartaA = new Image(); cartaA.src = './utils/images/A.png'; cartaA.style = 'width: auto; margin: 4px; height: 200px;'
+    const cartaJ = new Image(); cartaJ.src = './utils/images/J.png'; cartaJ.style = 'width: auto; margin: 4px; height: 200px;'
+    const cartaK = new Image(); cartaK.src = './utils/images/K.png'; cartaK.style = 'width: auto; margin: 4px; height: 200px;'
+    const cartaQ = new Image(); cartaQ.src = './utils/images/Q.png'; cartaQ.style = 'width: auto; margin: 4px; height: 200px;'
+
+    function hit(){
+      let puntaje = parseInt(document.getElementById('puntajeJugador').innerHTML)
+      if (puntaje < 21){
+        const num = Math.ceil(Math.random()*13)
+        const contenedor = document.getElementById('cartasJugador')
+        darCara(num, contenedor)
+        if (num === 10 || num === 11 || num === 12 || num === 13){
+          puntaje = puntaje + 10
+          document.getElementById('puntajeJugador').innerHTML = puntaje
+        } else if(num === 1) {
+          if (puntaje + 11 <= 21){
+            puntaje = puntaje + 11
+            document.getElementById('puntajeJugador').innerHTML = puntaje
+          } else {
+            puntaje = puntaje + 1
+            document.getElementById('puntajeJugador').innerHTML = puntaje
+          }        
+        } else {
+          puntaje = puntaje + num
+          document.getElementById('puntajeJugador').innerHTML = puntaje
+        }
+        if (puntaje > 21){
+          setTimeout(() => {
+            resultado()
+          }, 100);
+        }
+      } else {
+        if (puntaje === 21){
+          alert('Ya tienes 21, no sigas! Es turno de la computadora')
+          stand()
+        }
+      }
+    }
+
+    function stand(){
+      document.getElementById('hit').disabled = true
+      document.getElementById('stand').disabled = true
+      let suceso = setInterval(() => {
+        let puntaje = parseInt(document.getElementById('puntajeComputadora').innerHTML)
+        if (puntaje < 21){
+          const num = Math.ceil(Math.random()*13)
+          const contenedor = document.getElementById('cartasCompu')
+          darCara(num, contenedor)
+          if (num === 10 || num === 11 || num === 12 || num === 13){
+            puntaje = puntaje + 10
+            document.getElementById('puntajeComputadora').innerHTML = puntaje
+          } else if(num === 1) {
+            if (puntaje + 11 <= 21){
+              puntaje = puntaje + 11
+              document.getElementById('puntajeComputadora').innerHTML = puntaje
+            } else {
+              puntaje = puntaje + 1
+              document.getElementById('puntajeComputadora').innerHTML = puntaje
+            }        
+          } else {
+            puntaje = puntaje + num
+            document.getElementById('puntajeComputadora').innerHTML = puntaje
+          }
+          if (puntaje >= 17){
+            clearInterval(suceso)
+            setTimeout(() => {
+              resultado()
+            }, 100);
+          }
+        }
+      }, 700);
+    }
+
+    function resultado(){
+      const puntajeJ = parseInt(document.getElementById('puntajeJugador').innerHTML)
+      const puntajeC = parseInt(document.getElementById('puntajeComputadora').innerHTML)
+      if (puntajeJ > 21 || (puntajeC > puntajeJ && puntajeC <= 21)) {
+        alert('Lastima, PERDISTE!')
+        document.getElementById('computadoraPuntaje').innerHTML = parseInt(document.getElementById('computadoraPuntaje').innerHTML) + 1
+      } else if (puntajeJ > puntajeC || puntajeC > 21){
+        alert('Felicidades, GANASTE!')
+        document.getElementById('jugadorPuntaje').innerHTML = parseInt(document.getElementById('jugadorPuntaje').innerHTML) + 1
+      } else if (puntajeJ === puntajeC){
+        alert('Empate, nadie gana!')
+      }
+      document.getElementById('deal').disabled = false
+      document.getElementById('stand').disabled = true
+    }
+
+    function deal(){
+      document.getElementById('cartasJugador').innerHTML = ''
+      document.getElementById('cartasCompu').innerHTML = ''
+
+      document.getElementById('puntajeJugador').innerHTML = '0'
+      document.getElementById('puntajeComputadora').innerHTML = '0'
+
+      document.getElementById('deal').disabled = true
+      document.getElementById('hit').disabled = false
+      document.getElementById('stand').disabled = false
+    }
+
+    function darCara(num, contenedor){
+      switch(num){
+        case 1:
+          const imgA = cartaA.cloneNode()
+          contenedor.appendChild(imgA)
+          break;
+        case 2:
+          const img2 = carta2.cloneNode()
+          contenedor.appendChild(img2)
+          break;
+        case 3:
+          const img3 = carta3.cloneNode()
+          contenedor.appendChild(img3)
+          break;
+        case 4:
+          const img4 = carta4.cloneNode()
+          contenedor.appendChild(img4)
+          break;
+        case 5:
+          const img5 = carta5.cloneNode()
+          contenedor.appendChild(img5)
+          break;
+        case 6:
+          const img6 = carta6.cloneNode()
+          contenedor.appendChild(img6)
+          break;
+        case 7:
+          const img7 = carta7.cloneNode()
+          contenedor.appendChild(img7)
+          break;
+        case 8:
+          const img8 = carta8.cloneNode()
+          contenedor.appendChild(img8)
+          break;
+        case 9:
+          const img9 = carta9.cloneNode()
+          contenedor.appendChild(img9)
+          break;
+        case 10:
+          const img10 = carta10.cloneNode()
+          contenedor.appendChild(img10)
+          break;
+        case 11:
+          const imgJ = cartaJ.cloneNode()
+          contenedor.appendChild(imgJ)
+          break;
+        case 12:
+          const imgQ = cartaQ.cloneNode()
+          contenedor.appendChild(imgQ)
+          break;
+        case 13:
+          const imgK = cartaK.cloneNode()
+          contenedor.appendChild(imgK)
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
