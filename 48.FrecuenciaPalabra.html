@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frecuencia de Palabras</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input, .section span{
+    margin-left: 12px;
+    font-weight: bold;
+  }
+
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 20px;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Frecuencia de Palabras</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingresa la frase que deseas identificar <textarea id="frase" style="margin-left: 12px; width: 500px" placeholder="Bla bla bla..."></textarea>
+      </section>
+      <section class="section">
+        Ingresa la palabra que deseas identificar <input id="palabra" placeholder="..."/>
+      </section>
+      <section class="section">
+        La palabra está: <span style="margin-right: 10px;" id='resultado'>0</span>veces
+      </section>
+    </div>
+    <button onclick="buscar()" class="btn">Buscar...</button>
+  </div>
+  <script>
+    function buscar() {
+      const frase = document.getElementById('frase').value
+      const palabra = document.getElementById('palabra').value
+      const regex = new RegExp(palabra, ['g'])
+      const resultado = frase.match(regex)
+      document.getElementById('resultado').innerHTML = resultado.length
+    }
+  </script>
+</body>
+</html>
