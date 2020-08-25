@@ -137,6 +137,11 @@
     const cartaK = new Image(); cartaK.src = './utils/images/K.png'; cartaK.style = 'width: auto; margin: 4px; height: 200px;'
     const cartaQ = new Image(); cartaQ.src = './utils/images/Q.png'; cartaQ.style = 'width: auto; margin: 4px; height: 200px;'
 
+    let puntajeReal = {
+      jugador: 0,
+      compu: 0
+    }
+
     function hit(){
       let puntaje = parseInt(document.getElementById('puntajeJugador').innerHTML)
       if (puntaje < 21){
@@ -145,17 +150,21 @@
         darCara(num, contenedor)
         if (num === 10 || num === 11 || num === 12 || num === 13){
           puntaje = puntaje + 10
+          puntajeReal.jugador = puntajeReal.jugador + num
           document.getElementById('puntajeJugador').innerHTML = puntaje
         } else if(num === 1) {
           if (puntaje + 11 <= 21){
             puntaje = puntaje + 11
+            puntajeReal.jugador = puntajeReal.jugador + 11
             document.getElementById('puntajeJugador').innerHTML = puntaje
           } else {
             puntaje = puntaje + 1
+            puntajeReal.jugador = puntajeReal.jugador + 1
             document.getElementById('puntajeJugador').innerHTML = puntaje
           }        
         } else {
           puntaje = puntaje + num
+          puntajeReal.jugador = puntajeReal.jugador + num
           document.getElementById('puntajeJugador').innerHTML = puntaje
         }
         if (puntaje > 21){
@@ -179,6 +188,7 @@
         if (puntaje < 21){
           const num = Math.ceil(Math.random()*13)
           const contenedor = document.getElementById('cartasCompu')
+          puntajeReal.compu = puntajeReal.compu + num
           darCara(num, contenedor)
           if (num === 10 || num === 11 || num === 12 || num === 13){
             puntaje = puntaje + 10
@@ -215,7 +225,15 @@
         alert('Felicidades, GANASTE!')
         document.getElementById('jugadorPuntaje').innerHTML = parseInt(document.getElementById('jugadorPuntaje').innerHTML) + 1
       } else if (puntajeJ === puntajeC){
-        alert('Empate, nadie gana!')
+        if (puntajeReal.jugador > puntajeReal.compu){
+          alert('Felicidades, por jerarquia GANASTE!')
+          document.getElementById('jugadorPuntaje').innerHTML = parseInt(document.getElementById('jugadorPuntaje').innerHTML) + 1
+        } else if (puntajeReal.jugador < puntajeReal.compu) {
+          alert('Lastima, por jerarquia PERDISTE!')
+          document.getElementById('computadoraPuntaje').innerHTML = parseInt(document.getElementById('computadoraPuntaje').innerHTML) + 1
+        } else {
+          alert('EMPATE!')
+        }
       }
       document.getElementById('deal').disabled = false
       document.getElementById('stand').disabled = true
@@ -231,6 +249,9 @@
       document.getElementById('deal').disabled = true
       document.getElementById('hit').disabled = false
       document.getElementById('stand').disabled = false
+
+      puntajeReal.jugador = 0
+      puntajeReal.compu = 0
     }
 
     function darCara(num, contenedor){
