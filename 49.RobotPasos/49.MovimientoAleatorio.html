@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frecuencia de Palabras</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 10% 80% 10%;
+    grid-template-columns: 100%;
+    grid-template-areas: 
+    'titulo'
+    'malla'
+    'botones'
+    ;
+    min-width: 945px;
+    max-width: 945px;
+  }
+
+  .titulo {
+    grid-area: titulo;
+  }
+
+  .mallaContenedor {
+    background-image: url('./Malla.png');
+    background-size: 945px 525px;
+    grid-area: malla;
+  }
+
+  .malla {
+    justify-content: center;
+    align-self: center;
+    display: grid;
+    grid-template-rows: repeat(21, 25px);
+    grid-template-columns: repeat(21, 45px);
+  }
+
+  #robot {
+    height: 25px; 
+    justify-self: center;
+    transform: translate(450px, 250px);
+  }
+
+  .botones {
+    grid-area: botones;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+  }
+  
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="justify-self: center;" class="titulo">Movimiento Aleatorio</h1>
+    <div class='mallaContenedor'>
+      <div class="malla">
+        <img id="robot" src="https://i.pinimg.com/originals/17/f6/8e/17f68e401b36b8b87346557940a40970.png"/>
+      </div>
+    </div>
+    <div class='botones'>
+      <button id="empezar" onclick="empezar()" class="btn">Empezar...</button>
+      <span>Cuantos pasos dará: <input id="pasos" type="text"></span>
+      <button id="reset" onclick="reset()" class="btn">Reset...</button>
+    </div>
+  </div>
+  <script>
+    // posibilidades 0 arriba, 1 derecha, 2 abajo, 3 izquierda
+    const robot = document.getElementById('robot')
+    let total = {
+      arriba: 0,
+      derecha: 0,
+      abajo: 0,
+      izquierda: 0,
+    }
+    let coordenadas = [0,0]
+    const btnEmpezar = document.getElementById('empezar')
+    const btnReset = document.getElementById('reset')
+    btnReset.disabled = true
+    function empezar() {
+      btnEmpezar.disabled = true
+      btnReset.disabled = true
+      let pasosDados = 0
+      const pasosMax = parseInt(document.getElementById('pasos').value)
+      const movimiento = setInterval(() => {
+        let azar = Math.floor(Math.random()*4)
+        switch (azar){
+          case 0:
+            console.log('arriba')
+            pasosDados++
+            total.arriba++
+            coordenadas[1]++
+            break;
+          case 1:
+            console.log('derecha')
+            pasosDados++
+            total.derecha++
+            coordenadas[0]++
+            break;
+          case 2:
+            console.log('abajo')
+            pasosDados++
+            total.abajo++
+            coordenadas[1]--
+            break;
+          case 3:
+            console.log('izquierda')
+            pasosDados++
+            total.izquierda++
+            coordenadas[0]--
+            break;
+        }
+        robot.style = `transform: translate(${450 + (45 * coordenadas[0])}px, ${250 - (25 * coordenadas[1])}px);`
+        console.log(azar, total, coordenadas)
+        if (pasosDados >= pasosMax) {
+          clearInterval(movimiento)
+          setTimeout(() => {
+            alert(`
+              Se movio ${total.arriba} veces arriba
+              Se movio ${total.derecha} veces a la derecha
+              Se movio ${total.abajo} veces abajo
+              Se movio ${total.izquierda} veces a la izquierda
+              Su coordenada final es (${coordenadas[0]}, ${coordenadas[1]})
+            `)
+          }, 200);
+          btnReset.disabled = false
+        }
+      }, 700);
+    }
+
+    function reset() {
+      btnEmpezar.disabled = false
+      btnReset.disabled = true
+      total = {
+        arriba: 0,
+        derecha: 0,
+        abajo: 0,
+        izquierda: 0,
+      }
+      coordenadas = [0,0]
+      robot.style = `transform: translate(${450 + (45 * coordenadas[0])}px, ${250 - (25 * coordenadas[1])}px);`
+    }
+  </script>
+</body>
+</html>
