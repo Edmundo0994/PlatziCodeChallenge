@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validador de contraseñas</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input, .section span{
+    margin-left: 12px;
+    font-weight: bold;
+  }
+
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 20px;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Validador de contraseñas</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingresa la contraseña que deseas validar: <input id="contra" placeholder="contraseña"/>
+      </section>
+      <section class="section">
+        <span style="margin-right: 10px;" id='resultado'></span>
+      </section>
+    </div>
+    <button onclick="validar()" class="btn">Validar...</button>
+  </div>
+  <script>
+    const datos = {
+      num: [48,49,50,51,52,53,54,55,56,57],
+      min: [97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122],
+      mayus: [65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],
+      esp: [32,33,34,35,36,37,39,40,41,42,43,44,45,46,47,58,59,60,61,62,63,64,91,92,93,94,95,96,123,124,125,126]
+    }
+
+    let flags = {
+      num: false,
+      min: false,
+      mayus: false,
+      esp: false,
+      long: false,
+    }
+
+    function validar() {
+      flags = {
+        num: false,
+        min: false,
+        mayus: false,
+        esp: false,
+        long: false,
+      }
+      let contra = document.getElementById('contra').value.split('')
+      
+      contra.map( caracter => {
+        let charCode = caracter.charCodeAt(0)
+        revisar(charCode, 'num')
+        revisar(charCode, 'min')
+        revisar(charCode, 'mayus')
+        revisar(charCode, 'esp')
+      })
+
+      if (contra.length >= 8){
+        flags.long = true
+      }
+
+      let aciertos = 0
+      let resultado = Object.values(flags)
+      resultado.map(boolean => {
+        if (boolean){
+          aciertos++
+        }
+      })
+
+      if (aciertos <= 2){
+        alert('Contraseña insegura')
+      } else if (aciertos > 2 && aciertos <= 4){
+        alert('Contraseña medianamente segura')
+      } else if (aciertos === 5){
+        alert('Contraseña segura')
+      }
+    }
+
+    function revisar(charCode, grupo){
+      datos[grupo].forEach( num => {
+          if (num === charCode){
+            flags[grupo] = true
+          }
+      })
+    }
+  </script>
+</body>
+</html>
