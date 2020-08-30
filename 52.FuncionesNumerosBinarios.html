@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funciones y números binarios</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input, .section span{
+    margin-left: 12px;
+    font-weight: bold;
+  }
+
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 20px;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">De número a binario</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingresa el número que deseas trasformar a binario <input id="num" placeholder="número"/>
+      </section>
+      <section class="section">
+        En binario sería: <span style="margin-right: 10px;" id='resultado'></span>
+      </section>
+    </div>
+    <button onclick="transformar()" class="btn">Transformar...</button>
+  </div>
+  <script>
+    function transformar() {
+      let num = parseInt(document.getElementById('num').value)
+      let binario = []
+      while (num >= 1){
+        binario.unshift(num % 2)
+        num = Math.floor(num / 2)
+      }
+      document.getElementById('resultado').innerHTML = binario.join('')
+    }
+  </script>
+</body>
+</html>
