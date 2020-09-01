@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coerción</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input, .section span{
+    margin-left: 12px;
+    font-weight: bold;
+  }
+
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 20px;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">De texto a número</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingresa el string que deseas transformar a número <input id="num" placeholder="número"/>
+      </section>
+      <section class="section">
+        Revisa la consola para ver el resultado
+      </section>
+    </div>
+    <button onclick="transformar()" class="btn">Transformar...</button>
+  </div>
+  <script>
+    function transformar() {
+      let num = document.getElementById('num').value
+      if (num.includes('.')){
+        num = parseFloat(num)
+      } else {
+        if (isNaN(num)){
+          alert('Eso no es un número, pero te regresaré tu parrafo en código ASCII, revisa la consola c:')
+          let array = num.split('')
+          let charCode = []
+          array.map(letter => {
+            charCode.push(letter.charCodeAt(0))
+          })
+          console.log(charCode)
+        } else {
+          num = parseInt(num)
+        }
+      }
+    }
+  </script>
+</body>
+</html>
