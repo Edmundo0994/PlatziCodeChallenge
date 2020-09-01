@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identificador de URL</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input, .section span{
+    margin-left: 12px;
+    font-weight: bold;
+  }
+
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 20px;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Identificador de URL</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingresa el string para identificar si es un url<input id="string" placeholder="URL"/>
+      </section>
+      <section class="section" id="resultado"></section>
+    </div>
+    <button onclick="identificar()" class="btn">Identificar...</button>
+  </div>
+  <script>
+    // La expresión regular la conseguí aquí https://code.tutsplus.com/es/tutorials/8-regular-expressions-you-should-know--net-6149 ya que no tengo muchos conocimientos de RegExp
+    function identificar() {
+      let string = document.getElementById('string').value
+      let match = string.match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/)
+      let resultado = document.getElementById('resultado')
+      if (match === null){
+        resultado.style = 'color: red'
+        resultado.innerHTML = `${string} no es un url`
+      } else {
+        resultado.style = 'color: green;'
+        resultado.innerHTML = `${string} tiene forma de un url`
+      }
+    }
+  </script>
+</body>
+</html>
