@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackeando Strings</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input, .section span{
+    margin-left: 12px;
+    font-weight: bold;
+  }
+
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 20px;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Hackeando strings</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingresa el string para codificarlo<input id="string" placeholder="String"/>
+      </section>
+      <section class="section" id="resultado"></section>
+    </div>
+    <button onclick="codificar()" class="btn">Codificar...</button>
+  </div>
+  <script>
+    let code = {
+      a: "4", b: "13", c: "(", d: "[)", e: "3", f: "|=", g:"6", h: "|-|", i: "|", j: "]", k: "|<", l: "1", m: "|Y|", n: "/\\/",
+      o: "0", p: "|>", q: "0,", r: "|2", s: "5", t: "7", u: "[_]", v: "\\/", w: "\\v/", x: "}{", y: "`/", z: "2"
+    } 
+      
+    function codificar() {
+      let string = document.getElementById('string').value.toLowerCase().split(' ')
+      let index0 = 0
+      string.forEach(word => {
+        let wordArray = word.split('')
+        let index = 0
+        wordArray.forEach(letter => {
+          // console.log(letter)
+          wordArray[index] = code[letter]
+          index++
+        })
+        // console.log(wordArray)
+        string[index0] = wordArray.join('')
+        index0++
+      });
+      document.getElementById('resultado').innerHTML = string.join(' ')
+    }
+  </script>
+</body>
+</html>
