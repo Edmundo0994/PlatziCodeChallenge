@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcula la Media</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .inputs {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .section {
+    padding: 0.25rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .section input, .section span{
+    margin-left: 12px;
+    font-weight: bold;
+  }
+
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 20px;
+    margin-bottom: 10px;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin-bottom: 24px;">Media de números</h1>
+    <div class="inputs">
+      <section class="section">
+        Ingresa los números que deseas encontrar su media separados por una coma <input id="numeros" placeholder="12,54,258,..."/>
+      </section>
+      <section class="section" id="resultado"></section>
+    </div>
+    <button onclick="calcular()" class="btn">Calcular Media...</button>
+    <button onclick="manual()" class="btn">Ingresar manualmente...</button>
+  </div>
+  <script>
+    let numeros = []
+    // Esta bandera la uso para poder saber si estoy ingresando manualmente o directamente ingresando los datos en el input
+    let flag = true
+
+    function manual(){
+      let num = prompt('Ingrese un número')
+      numeros.push(num)
+      let decision = prompt('Desea ingresar otro? SI o NO?').toUpperCase()
+      if (decision === 'SI'){
+        manual()
+      } else {
+        flag = false
+        calcular()
+      }
+    }
+      
+    function calcular() {
+      if (flag){
+        numeros = document.getElementById('numeros').value.replace(/[ ]/g, '').split(',')
+      }
+      let resultado = document.getElementById('resultado')
+      let length = numeros.length
+      let subTotal = 0
+      numeros.forEach(num => {
+        subTotal += parseFloat(num)
+      })
+      let total = parseFloat(subTotal / length)
+      resultado.innerHTML = `La media es ${total.toFixed(2)}`
+      flag = true
+      numeros = []
+    }
+  </script>
+</body>
+</html>
