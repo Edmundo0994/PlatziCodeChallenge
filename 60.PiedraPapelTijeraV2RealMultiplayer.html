@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  class jugador {
+    constructor(id, eleccion, resultado){
+      this.id = id,
+      this.eleccion = eleccion
+      this.resultado = resultado
+    }
+  }
+  let numJugadores = parseInt(prompt('Bienvenido a Rock Paper Scissors Multiplayer, indica cuantos jugadores habrán en el torneo.'))
+  alert('Los jugadores empiezan desde 0, o sea jugador 0, jugador 1, jugador 2, etc etc')
+  alert('Los jugadores deberan escoger entre pi -> piedra, pa -> papel, ti -> tijera, por favor, escoga correctamente!')
+  alert('Si la cantidad de contendientes es impar, el último jugará en la siguiente ronda como el primer participante!')
+  let jugadores = []
+  let sobrante = []
+  // Se crean mis jugadores
+  for (let i = 0; i < numJugadores; i++){
+    jugadores.push(new jugador(i))
+  }
+  juego()
+  function juego(partida) {
+    if (jugadores.length % 2 !== 0){
+      sobrante = jugadores.pop()
+    }
+    let contador = 0
+    while (contador < jugadores.length){
+      jugadores[contador].eleccion = prompt(`Indique que escogera el jugador ${jugadores[contador].id}`)
+      jugadores[contador + 1].eleccion = prompt(`Indique que escogera el jugador ${jugadores[contador + 1].id}`)
+      if ((jugadores[contador].eleccion === 'pi' && jugadores[contador + 1].eleccion === 'ti') || (jugadores[contador].eleccion === 'ti' && jugadores[contador + 1].eleccion === 'pa') || (jugadores[contador].eleccion === 'pa' && jugadores[contador + 1].eleccion === 'pi')) {
+        jugadores[contador].resultado = 1
+        jugadores[contador + 1].resultado = 0
+      } else if ((jugadores[contador].eleccion === 'pi' && jugadores[contador + 1].eleccion === 'pa') || (jugadores[contador].eleccion === 'ti' && jugadores[contador + 1].eleccion === 'pi') || (jugadores[contador].eleccion === 'pa' && jugadores[contador + 1].eleccion === 'ti')) {
+        jugadores[contador].resultado = 0
+        jugadores[contador + 1].resultado = 1
+      }
+      if (jugadores[contador].resultado === 1){
+        alert(`Gano el jugador ${jugadores[contador].id}`)
+        contador = contador + 2
+      } else if (jugadores[contador + 1].resultado === 1){
+        alert(`Gano el jugador ${jugadores[contador + 1].id}`)
+        contador = contador + 2
+      } else {
+        alert('Empate se vuelve a jugar')
+      }
+    }
+    for (let i = 0; i < jugadores.length; i++){
+      if (jugadores[i].resultado === 0){
+        alert(`El jugador ${jugadores[i].id} es eliminado del torneo`)
+        jugadores.splice(i, 1)
+      }
+    }
+    if (sobrante.length !== 0){
+      jugadores.unshift(sobrante)
+      sobrante = []
+    }
+    if (jugadores.length === 1){
+      alert(`El ganador del torneo es el jugador ${jugadores[0].id}`)
+    } else {
+      jugadores.forEach(jugador => {
+        alert(`El jugador ${jugador.id} sigue en el torneo`)
+      });
+      juego()
+    }
+  }
+</script>
+</body>
+</html>
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  let juegos = 0
+  function juego() {
+    if (juegos === 0){
+      alert('Bienvenido a Piedra papel o tijeras mejorado, este juego consiste de 2 jugadores')
+    }
+    let jugador1 = parseInt(prompt('Ingrese la opción del jugador 1  |0 -> piedra|1 -> papel|2-> tijera|'))
+    let jugador2 = 0
+    if (jugador1 === 0 || jugador1 === 1 || jugador1 === 2){
+      jugador2 = parseInt(prompt('Ingrese la opción del jugador 2  |0 -> piedra|1 -> papel|2-> tijera|'))
+      if (jugador2 === 0 || jugador2 === 1 || jugador2 === 2){
+        if ((jugador1 === 0 && jugador2 === 2) || (jugador1 === 2 && jugador2 === 1) || (jugador1 === 1 && jugador2 === 0)) {
+          alert('Gano el jugador 1')
+          let decision = parseInt(prompt('Deseas volver a jugar? |0 -> SI|1 -> NO|'))
+          if (decision === 0){
+            juegos++
+            juego()
+          }
+        } else if ((jugador1 === 0 && jugador2 === 1) || (jugador1 === 2 && jugador2 === 0) || (jugador1 === 1 && jugador2 === 2)) {
+          alert('Gano el jugador 2')
+          let decision = parseInt(prompt('Deseas volver a jugar? |0 -> SI|1 -> NO|'))
+          if (decision === 0){
+            juegos++
+            juego()
+          }
+        }
+      } else {
+        alert('Error en ingreso de datos...')
+        juego()
+      }
+    } else {
+      alert('Error en ingreso de datos...')
+      juego()
+    }
+  }
+
+  juego()
+</script>  
+</body>
+</html>
