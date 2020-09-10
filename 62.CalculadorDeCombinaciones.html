@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculador de combinaciones</title>
+</head>
+<body>
+<script>
+  let num = [1,2,3,4]
+  let r = 2
+  function calcular(num, r){
+    let n = parseInt(num.length)
+    let numerador = 1
+    for (let i = 2; i <= n; i++){
+      numerador = numerador * i
+    }
+    let dominador1 = 1
+    for (let i = 2; i <= (n - r); i++){
+      dominador1 = dominador1 * i
+    }
+    let dominador2 = 1
+    for (let i = 2; i <= r; i++){
+      dominador2 = dominador2 * i
+    }
+    let resultado = parseFloat(numerador / (dominador1 * dominador2))
+    console.log(resultado)
+  }
+  calcular(num, r)
+</script>
+</body>
+</html>
