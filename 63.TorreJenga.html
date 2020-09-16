@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slides</title>
+</head>
+<style>
+  * {
+    margin: 0;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    min-width: 600px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-rows: repeat(18, auto);
+    grid-template-columns: 50% 50%;
+    margin: 10px;
+  }
+
+  .section {
+    min-width: 300px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .btn {
+    border: 2px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px;
+    width: 100%;
+  }
+
+  .btn-n {
+    cursor: not-allowed;
+  }
+
+</style>
+<body>
+  <div class="contenedor">
+    <h1 style="margin: 12px;">Juego de Jenga</h1>
+    
+    <div class="grid">
+      <section class="section">Frontal</section>
+      <section class="section">Lado</section>
+    </div>
+    <div id='torre' class="grid">
+    </div>
+  </div>
+  <script>
+    // Clase para los bloques del jenga
+    class Boton {
+      constructor(id){
+        this.id = id
+        this.sacado = false
+      }
+    }
+
+    let botones = []
+    let intentos = 0
+    let filas = 6
+
+    let torre = document.getElementById('torre')
+    // Crea la torre al inicio para jugar inmediatamente
+    for (let i = 0; i < filas; i++){
+      if (i % 2 === 0){
+        crearFila(i, true)
+      } else {
+        crearFila(i, false)
+      }
+    }
+    // Esta función me permite crear la torre, teniendo en cuenta el contador i como la fila y el booleano para saber que cara toca, si frontal o lado
+    function crearFila(i, bool){
+      let section1 = document.createElement('section')
+      section1.style = "background-color: rgba(0, 110, 255, 0.5);"
+      section1.classList = 'section'
+      for (let x = 0; x < 3; x++){
+        let button = document.createElement('button')
+        button.classList = 'btn'
+        button.id = parseInt(filas - i) + '_' + parseInt(x+1)
+        button.innerHTML = parseInt(x+1)
+        button.addEventListener('click', sacarBoton)
+        botones.push(new Boton(parseInt(filas - i) + '_' + parseInt(x+1)))
+        section1.appendChild(button)
+      }
+      let section2 = document.createElement('section')
+      section2.style = "background-color: rgba(255, 200, 135, 0.5);"
+      section2.classList = 'section'
+      let button = document.createElement('button')
+      button.classList = 'btn btn-n'
+      button.innerHTML = filas - i
+      button.disabled = true
+      section2.appendChild(button)
+      if (bool){
+        torre.appendChild(section1)
+        torre.appendChild(section2)
+      } else {
+        torre.appendChild(section2)
+        torre.appendChild(section1)
+      }
+    }
+    // Aquí se hace la validación de que no saquen las fichas de arriba y da paso a que se compruebe si se cae o no la torre
+    function sacarBoton(){
+      let botonSelec = document.getElementById(this.id)
+      console.log(botonSelec.id, filas)
+      if (botonSelec.id === `${filas}_1` || botonSelec.id === `${filas}_2` || botonSelec.id === `${filas}_3`){
+        alert('No se puede sacar la ficha de arriba')
+      } else {
+        intentos++  
+        botonSelec.disabled = true
+        botonSelec.classList = 'btn btn-n'
+        botones.forEach(boton => {
+          if (boton.id === botonSelec.id){
+            boton.sacado = true
+          }
+        });
+        comprobarCentro(this.id)
+        comprobarLados()
+      }
+    }
+    // Aquí se comprueba si es que hace falta la ficha del centro y se saca un lado o viceversa, si se saca el centro y hace falta el lado
+    function comprobarCentro(id){
+      let pulsado = id.split('_')
+      if(pulsado[1] === '1' || pulsado[1] === '3'){
+        if((botones.find(boton => boton.id === `${pulsado[0]}_2`)).sacado === true){
+          alert('Lo siento, perdiste')
+          resetear()
+        }
+      } else {
+        if((botones.find(boton => boton.id === `${pulsado[0]}_1`)).sacado === true || (botones.find(boton => boton.id === `${pulsado[0]}_3`)).sacado === true){
+          alert('Lo siento, perdiste')
+          resetear()
+        }
+      }
+    }
+    // Aquí se comprueban los 2 lados de cada perspectiva, osea frontal y lado
+    function comprobarLados(){
+      let izquierdaFrontal = 0
+      let derechaFrontal = 0
+      let izquierdaLado = 0
+      let derechaLado = 0
+      
+      let frontalesIzquierdos = botones.filter(boton => boton.id.split('_')[1] === '1' && (boton.id.split('_')[0] % 2 === 0))
+      let frontalesDerechos = botones.filter(boton => boton.id.split('_')[1] === '3' && (boton.id.split('_')[0] % 2 === 0))
+      let ladoIzquierdos = botones.filter(boton => boton.id.split('_')[1] === '1' && (boton.id.split('_')[0] % 2 !== 0))
+      let ladoDerechos = botones.filter(boton => boton.id.split('_')[1] === '3' && (boton.id.split('_')[0] % 2 !== 0))
+
+      // Aquí se comprueba si es que aún se puede sostener por los lados dependiendo de la cara, solo soporta 4 máximo, al sacar el 5 de dicho lado, se cae la torre
+      comprobar(izquierdaFrontal, frontalesIzquierdos)
+      comprobar(derechaFrontal, frontalesDerechos)
+      comprobar(izquierdaLado, ladoIzquierdos)
+      comprobar(derechaLado, ladoDerechos)
+
+      function comprobar(contador, perspectiva){
+        perspectiva.forEach(boton => {
+          if (boton.sacado === true){
+            contador++
+          } else {
+            contador = 0
+          }
+          if (contador > 4){
+            alert('Lo siento, perdiste')
+            resetear()
+          }
+        })
+      }
+    }
+
+    // Aquí se resetea todo y si le suman dos filas hasta que llega a 18, una vez que llega ahí, se termina el juego
+    function resetear(){
+      filas = filas + 2
+      alert(`Tuviste ${intentos-1} aciertos antes de que se destruya la torre`)
+      intentos = 0
+      if (filas <= 18){
+        torre.innerHTML = ''
+        botones = []
+        // Aquí se genera la nueva torre de jenga con la nueva cantidad de filas
+        for (let i = 0; i < filas; i++){
+          if (i % 2 === 0){
+            crearFila(i, true)
+          } else {
+            crearFila(i, false)
+          }
+        }
+      } else {
+        torre.innerHTML=''
+        alert('Se acabo el juego!')
+      }
+    }
+  </script>
+</body>
+</html>
