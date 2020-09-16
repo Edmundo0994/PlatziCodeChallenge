@@ -67,6 +67,7 @@
 
     let botones = []
     let intentos = 0
+    let intentosMemoria = 0
     let filas = 6
 
     let torre = document.getElementById('torre')
@@ -132,12 +133,10 @@
       let pulsado = id.split('_')
       if(pulsado[1] === '1' || pulsado[1] === '3'){
         if((botones.find(boton => boton.id === `${pulsado[0]}_2`)).sacado === true){
-          alert('Lo siento, perdiste')
           resetear()
         }
       } else {
         if((botones.find(boton => boton.id === `${pulsado[0]}_1`)).sacado === true || (botones.find(boton => boton.id === `${pulsado[0]}_3`)).sacado === true){
-          alert('Lo siento, perdiste')
           resetear()
         }
       }
@@ -154,7 +153,7 @@
       let ladoIzquierdos = botones.filter(boton => boton.id.split('_')[1] === '1' && (boton.id.split('_')[0] % 2 !== 0))
       let ladoDerechos = botones.filter(boton => boton.id.split('_')[1] === '3' && (boton.id.split('_')[0] % 2 !== 0))
 
-      // Aquí se comprueba si es que aún se puede sostener por los lados dependiendo de la cara, solo soporta 4 máximo, al sacar el 5 de dicho lado, se cae la torre
+      // Aquí se comprueba si es que aún se puede sostener por los lados dependiendo de la cara, solo soporta 3 máximo, al sacar el 5 de dicho lado, se cae la torre
       comprobar(izquierdaFrontal, frontalesIzquierdos)
       comprobar(derechaFrontal, frontalesDerechos)
       comprobar(izquierdaLado, ladoIzquierdos)
@@ -167,33 +166,80 @@
           } else {
             contador = 0
           }
-          if (contador > 4){
-            alert('Lo siento, perdiste')
+          if (contador > 3){
             resetear()
           }
         })
       }
     }
 
+    let primerjuego = false
     // Aquí se resetea todo y si le suman dos filas hasta que llega a 18, una vez que llega ahí, se termina el juego
     function resetear(){
-      filas = filas + 2
-      alert(`Tuviste ${intentos-1} aciertos antes de que se destruya la torre`)
-      intentos = 0
-      if (filas <= 18){
-        torre.innerHTML = ''
-        botones = []
-        // Aquí se genera la nueva torre de jenga con la nueva cantidad de filas
-        for (let i = 0; i < filas; i++){
-          if (i % 2 === 0){
-            crearFila(i, true)
-          } else {
-            crearFila(i, false)
+      if (intentos - 1 > intentosMemoria && primerjuego === true){
+        alert(`Tuviste ${intentos-1} aciertos antes de que se destruya la torre y superaste tu record anterior que era ${intentosMemoria}`)
+        intentosMemoria = 0
+        intentos = 0
+        filas = filas + 2
+        if (filas <= 18){
+          torre.innerHTML = ''
+          botones = []
+          // Aquí se genera la nueva torre de jenga con la nueva cantidad de filas
+          for (let i = 0; i < filas; i++){
+            if (i % 2 === 0){
+              crearFila(i, true)
+            } else {
+              crearFila(i, false)
+            }
           }
+          primerjuego = false
+        } else {
+          torre.innerHTML=''
+          alert('Se acabo el juego!')
+        }
+      } else if (primerjuego === false) {
+        alert(`Tuviste ${intentos-1} aciertos antes de que se destruya la torre`)
+        primerjuego = true
+        if (!(intentosMemoria >= intentos)){
+          intentosMemoria = intentos - 1
+        }
+        intentos = 0
+        if (filas <= 18){
+          torre.innerHTML = ''
+          botones = []
+          // Aquí se genera la nueva torre de jenga con la nueva cantidad de filas
+          for (let i = 0; i < filas; i++){
+            if (i % 2 === 0){
+              crearFila(i, true)
+            } else {
+              crearFila(i, false)
+            }
+          }
+        } else {
+          torre.innerHTML=''
+          alert('Se acabo el juego!')
         }
       } else {
-        torre.innerHTML=''
-        alert('Se acabo el juego!')
+        alert(`Tuviste ${intentos-1} aciertos antes de que se destruya la torre pero no superaste tu record anterior que era ${intentosMemoria}`)
+        if (!(intentosMemoria >= intentos)){
+          intentosMemoria = intentos - 1
+        }
+        intentos = 0
+        if (filas <= 18){
+          torre.innerHTML = ''
+          botones = []
+          // Aquí se genera la nueva torre de jenga con la nueva cantidad de filas
+          for (let i = 0; i < filas; i++){
+            if (i % 2 === 0){
+              crearFila(i, true)
+            } else {
+              crearFila(i, false)
+            }
+          }
+        } else {
+          torre.innerHTML=''
+          alert('Se acabo el juego!')
+        }
       }
     }
   </script>
